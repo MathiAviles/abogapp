@@ -1,0 +1,61 @@
+.meetings-page-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  min-height: 60vh;
+}
+
+.meetings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.meeting-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.meeting-details .meeting-date {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #333;
+}
+
+.meeting-details .meeting-with {
+  margin: 8px 0;
+  color: #555;
+}
+
+.meeting-status {
+  font-size: 0.9em;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.status-confirmada {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.meeting-actions .connect-btn {
+  background-color: #E85D99;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.connect-btn:hover {
+  background-color: #d14a83;
+}

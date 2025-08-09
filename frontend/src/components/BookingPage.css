@@ -1,0 +1,66 @@
+.booking-container {
+  background-color: #f9f9f9;
+  padding: 50px 20px;
+  min-height: 70vh;
+}
+.booking-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  text-align: center;
+}
+.booking-card h1, .booking-card h2, .booking-card p {
+  margin: 0;
+}
+.booking-card h1 { font-size: 1.5em; font-weight: 400; color: #666; }
+.booking-card h2 { font-size: 2em; color: #222; margin-top: 5px; }
+.booking-card p { color: #555; margin-top: 5px; }
+
+.booking-calendar-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 30px;
+  text-align: left;
+}
+.booking-calendar-view, .booking-slots-view {
+  flex: 1;
+  min-width: 300px;
+}
+.booking-calendar-view h3, .booking-slots-view h3 {
+  font-size: 1.2em;
+  margin-bottom: 15px;
+}
+.booking-slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+  max-height: 350px;
+  overflow-y: auto;
+}
+.slot-button-book {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+.slot-button-book.selected {
+  background-color: #E85D99;
+  color: white;
+  border-color: #E85D99;
+  font-weight: bold;
+}
+.booking-confirm-btn {
+  margin-top: 30px;
+  max-width: 400px;
+}
+.booking-confirm-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

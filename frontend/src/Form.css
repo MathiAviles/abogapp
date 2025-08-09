@@ -1,0 +1,102 @@
+/* Contenedor principal para centrar el formulario en la página */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  background-color: #f9f9f9; /* Un fondo gris muy claro */
+  min-height: calc(100vh - 200px); /* Ajusta la altura para que no choque con header/footer */
+}
+
+/* La caja que contiene el formulario */
+.form-box {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 450px;
+}
+
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Grupo para cada campo (label + input) */
+.form-group {
+  margin-bottom: 25px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1em;
+  box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #E85D99; /* Color rosa de acento */
+}
+
+/* Contenedor para el campo de contraseña y el ícono */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper .toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #999;
+}
+
+/* Botón de envío */
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background-color: #E85D99; /* Color rosa principal */
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #d14a83; /* Un rosa un poco más oscuro */
+}
+
+/* Texto legal al final del formulario */
+.form-footer-text {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.form-footer-text a {
+  color: #333;
+  text-decoration: underline;
+}
+

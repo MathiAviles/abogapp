@@ -1,0 +1,8 @@
+Flask
+Flask-Cors
+Flask-SQLAlchemy
+Flask-Bcrypt
+Flask-Login
+Flask-JWT-Extended
+argon2-cffi
+stream-chat

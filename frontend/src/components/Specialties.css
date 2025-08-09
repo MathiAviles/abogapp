@@ -1,0 +1,83 @@
+/* --- ESTILOS PARA LA SECCIÓN DE ESPECIALIDADES --- */
+
+/* Contenedor principal de toda la sección */
+.specialties-section {
+  background-color: #ffffff; /* Fondo blanco para esta sección */
+  padding: 80px 40px; /* Espacio vertical y horizontal */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra la grilla y el botón */
+}
+
+/* La grilla que contiene todas las tarjetas de especialidades */
+.specialties-grid {
+  display: grid;
+  /* Crea 3 columnas de tamaño igual que ocupan el espacio disponible */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 25px; /* Espacio entre las tarjetas */
+  width: 100%;
+  max-width: 1100px; /* Ancho máximo para la grilla en pantallas grandes */
+  margin-bottom: 40px; /* Espacio antes del botón "Mostrar más" */
+}
+
+/* Estilo para cada tarjeta individual */
+.specialty-card {
+  display: flex;
+  align-items: center; /* Centra los elementos verticalmente */
+  padding: 20px;
+  border: 1px solid #e0e0e0; /* Borde sutil */
+  border-radius: 12px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: all 0.3s ease; /* Transición suave para el hover */
+  background-color: #fff;
+}
+
+.specialty-card:hover {
+  border-color: #E85D99; /* Borde rosa al pasar el mouse */
+  transform: translateY(-5px); /* Efecto de elevación */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07); /* Sombra más pronunciada */
+}
+
+/* Estilo para el ícono dentro de la tarjeta */
+.specialty-icon {
+  font-size: 2em; /* Tamaño grande para el ícono */
+  margin-right: 15px; /* Espacio entre el ícono y el texto */
+}
+
+/* Estilo para el nombre de la especialidad */
+.specialty-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333;
+  margin: 0; /* Quita el margen por defecto del h3 */
+  flex-grow: 1; /* Hace que el nombre ocupe el espacio disponible */
+}
+
+/* Estilo para la flecha a la derecha */
+.specialty-arrow {
+  font-size: 1.5em;
+  color: #aaa;
+  transition: color 0.3s ease;
+}
+
+.specialty-card:hover .specialty-arrow {
+  color: #E85D99; /* La flecha se vuelve rosa en el hover */
+}
+
+/* Estilo para el botón "Mostrar más" */
+.show-more-btn {
+  padding: 12px 30px;
+  font-size: 1em;
+  font-weight: bold;
+  color: #333;
+  background-color: transparent;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.show-more-btn:hover {
+  background-color: #f5f5f5;
+  border-color: #333;
+}

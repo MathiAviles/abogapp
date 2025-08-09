@@ -1,0 +1,133 @@
+.lawyer-list-container {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+  min-height: 80vh;
+}
+
+.list-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: #333;
+}
+
+.lawyer-results {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.lawyer-card-detailed {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.lawyer-card-detailed:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.lawyer-card-left { flex-shrink: 0; }
+
+.lawyer-card-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #eee;
+}
+
+.lawyer-card-main { flex-grow: 1; }
+
+.lawyer-name-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.lawyer-name {
+  margin: 0 0 8px 0;
+  font-size: 1.4em;
+  color: #222;
+}
+
+.verified-check {
+  color: #007bff;
+  font-size: 0.8em;
+}
+
+.lawyer-meta {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 12px;
+}
+
+.lawyer-bio {
+  color: #444;
+  line-height: 1.5;
+  font-size: 0.95em;
+}
+
+.lawyer-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 160px;
+  gap: 8px;
+}
+
+.lawyer-rating {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.star { color: #f0ad4e; }
+
+.review-count, .lawyer-price {
+  font-size: 0.9em;
+  color: #777;
+}
+
+.lawyer-price {
+  font-weight: bold;
+  color: #333;
+}
+
+/* --- ESTILOS CORREGIDOS PARA LOS BOTONES --- */
+.btn-primary-action, .btn-secondary-action {
+  /* Eliminamos el 'width: 100%' para que no ocupe todo el espacio */
+  padding: 10px 16px; /* Ajustamos el padding para un tamaño adecuado */
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  font-size: 0.9em; /* Hacemos la fuente un poco más pequeña */
+}
+
+.btn-primary-action {
+  background-color: #E85D99;
+  color: white;
+  border-color: #E85D99;
+}
+
+.btn-secondary-action {
+  background-color: white;
+  color: #555;
+  border-color: #ccc;
+}
+
+.no-results {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+  padding: 50px;
+}

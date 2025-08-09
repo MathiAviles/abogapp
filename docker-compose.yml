@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: ./backend
+    container_name: flask_backend
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - FLASK_ENV=development
+      - STREAM_API_KEY=TU_API_KEY_DE_STREAM  # <-- AÑADE ESTO
+      - STREAM_API_SECRET=TU_API_SECRET_DE_STREAM # <-- AÑADE ESTO
+
+  frontend:
+    build: ./frontend
+    container_name: react_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    depends_on:
+      - backend
