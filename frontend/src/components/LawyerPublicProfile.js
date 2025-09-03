@@ -1,3 +1,4 @@
+// src/components/LawyerPublicProfile.js
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
@@ -90,7 +91,7 @@ function LawyerPublicProfile() {
   const [lbOpen, setLbOpen] = useState(false);
   const [lbIndex, setLbIndex] = useState(0);
 
-  // Pestañas + tracking de sección activa (para resaltar en mobile)
+  // Pestañas + tracking de sección activa
   const TABS = [
     { id: "sobre-mi", label: "SOBRE MI" },
     { id: "album", label: "ALBUM DE FOTOS" },
@@ -207,12 +208,11 @@ function LawyerPublicProfile() {
     checkFav();
   }, [token, abogadoId]);
 
-  // Destacar quicktab activa según scroll (en móvil también)
+  // Destacar quicktab activa según scroll
   useEffect(() => {
     const ids = TABS.map((t) => t.id);
     const observer = new IntersectionObserver(
       (entries) => {
-        // Elegimos la sección más cercana al top visible
         let candidate = activeTab;
         let minTop = Number.POSITIVE_INFINITY;
         entries.forEach((entry) => {
@@ -227,7 +227,6 @@ function LawyerPublicProfile() {
       },
       {
         root: null,
-        // Compensa la barra sticky y el header del sitio en mobile
         rootMargin: "-140px 0px -60% 0px",
         threshold: [0, 0.25, 0.5, 1],
       }
@@ -299,7 +298,6 @@ function LawyerPublicProfile() {
   return (
     <div className="profile-container">
       <div className="profile-card">
-        {/* ---- Intro Video (si existe) ---- */}
         {!!introVideoUrl && !videoLoading && (
           <div className="public-intro-video">
             <video
@@ -339,7 +337,7 @@ function LawyerPublicProfile() {
               </div>
             )}
 
-            {/* Acciones desktop (igual que antes) */}
+            {/* Acciones desktop */}
             <div className="profile-actions profile-actions-desktop" style={{ marginTop: 8 }}>
               <Link to={`/reservar-cita/${abogado.id}`}>
                 <button className="btn-primary-action">Reservar Cita</button>
@@ -354,7 +352,7 @@ function LawyerPublicProfile() {
               </button>
             </div>
 
-            {/* Acciones mobile (CTA grande + icono chat) */}
+            {/* Acciones mobile */}
             <div className="profile-actions-mobile">
               <button
                 className="icon-btn"
@@ -364,7 +362,14 @@ function LawyerPublicProfile() {
                 aria-label="Enviar mensaje"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M4 4h16v10H7l-3 3V4z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path
+                    d="M4 4h16v10H7l-3 3V4z"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </button>
               <Link to={`/reservar-cita/${abogado.id}`} className="primary-cta-link">
@@ -374,7 +379,7 @@ function LawyerPublicProfile() {
           </div>
         </div>
 
-        {/* ==== Pestañitas (atajos) con activo ==== */}
+        {/* ==== Pestañitas ==== */}
         <nav className="profile-quicknav" aria-label="Secciones del perfil">
           <div className="quicknav-scroll">
             {TABS.map(({ id, label }) => (
@@ -440,7 +445,6 @@ function LawyerPublicProfile() {
                   ))}
                 </div>
 
-                {/* Lightbox público */}
                 {lbOpen && gallery.length > 0 && (
                   <div className="lb-overlay" onClick={() => setLbOpen(false)} role="dialog" aria-modal="true">
                     <button
@@ -546,7 +550,13 @@ function LawyerPublicProfile() {
                         </small>
                         <small style={{ color: "#888", marginLeft: "auto" }}>{it.client || "Cliente"}</small>
                       </div>
-                      {it.comment ? <p style={{ margin: 0 }}>{it.comment}</p> : <p style={{ margin: 0, color: "#999" }}><em>Sin comentario</em></p>}
+                      {it.comment ? (
+                        <p style={{ margin: 0 }}>{it.comment}</p>
+                      ) : (
+                        <p style={{ margin: 0, color: "#999" }}>
+                          <em>Sin comentario</em>
+                        </p>
+                      )}
                     </li>
                   ))}
                 </ul>

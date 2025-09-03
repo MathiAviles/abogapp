@@ -1,3 +1,4 @@
+/* src/components/LawyerPublicProfile.css */
 .profile-container {
   background-color: #f9f9f9;
   padding: 50px 20px;
@@ -58,6 +59,9 @@
 }
 
 .profile-actions { display: flex; gap: 15px; }
+.profile-actions-desktop { display: flex; }  /* explícito */
+.profile-actions-mobile { display: none; }   /* ✅ oculto por defecto en desktop */
+
 .profile-rating-row { margin-top: 6px; line-height: 1; display: flex; align-items: center; gap: 8px; color:#666; }
 
 /* ====== Pestañitas (atajos) ====== */
@@ -252,7 +256,7 @@
 
   .profile-actions-desktop { display: none; }            /* ocultamos acciones de desktop */
   .profile-actions-mobile {
-    display: flex;
+    display: flex;                                       /* ✅ solo visible en móvil */
     gap: 10px;
     margin-top: 8px;
   }
