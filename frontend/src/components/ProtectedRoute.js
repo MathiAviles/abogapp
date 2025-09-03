@@ -1,29 +1,37 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 function ProtectedRoute({ children, requiredRole }) {
   const token = localStorage.getItem('token');
-  const userRole = localStorage.getItem('role');
+  const loc = useLocation();
 
-  // --- INICIO DE DEPURACIÓN ---
+  // user persistido por Login / VerifyEmail
+  const userRaw = localStorage.getItem('user');
+  let user = null;
+  try { user = JSON.parse(userRaw || 'null'); } catch { user = null; }
+
+  // Debug
   console.log("--- Verificando Ruta Protegida ---");
   console.log("Token encontrado:", token ? 'Sí' : 'No');
   console.log("Rol requerido:", requiredRole || 'Ninguno');
-  console.log("Rol del usuario:", userRole);
-  // --- FIN DE DEPURACIÓN ---
+  console.log("User:", user);
 
   if (!token) {
-    console.log("Decisión: No hay token. Redirigiendo a /login.");
-    return <Navigate to="/login" />;
+    const next = encodeURIComponent(loc.pathname + loc.search);
+    return <Navigate to={`/login?next=${next}`} replace />;
   }
 
-  // Comparamos los roles. Ojo con espacios invisibles (usamos .trim())
-  if (requiredRole && userRole?.trim() !== requiredRole) {
-    console.log(`Decisión: El rol no coincide ('${userRole}' !== '${requiredRole}'). Redirigiendo a /inicio.`);
-    return <Navigate to="/inicio" />;
+  if (requiredRole && user?.role?.trim() !== requiredRole) {
+    return <Navigate to="/inicio" replace />;
   }
 
-  console.log("Decisión: Acceso concedido. Mostrando componente.");
+  // Si es abogado y aún no está aprobado, permitir solo /abogado/kyc
+  if (user?.role === 'abogado' && user?.kyc_status !== 'approved') {
+    if (!loc.pathname.startsWith('/abogado/kyc')) {
+      return <Navigate to="/abogado/kyc" replace />;
+    }
+  }
+
   return children;
 }
 

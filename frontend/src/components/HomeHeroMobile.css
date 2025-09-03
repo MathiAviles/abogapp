@@ -1,0 +1,76 @@
+/* ===== HOME (Mobile-first) ===== */
+.abog-home{
+  display:flex; flex-direction:column; gap: var(--sp-24);
+  padding: var(--sp-16);
+}
+
+/* ===== HERO ===== */
+.abog-hero{
+  background: var(--rosa-primario);
+  border-radius: var(--radius-xl);
+  padding: var(--sp-16);
+  color: var(--blanco);
+  position: relative;
+  overflow: hidden;
+}
+
+.abog-hero__media{
+  position: relative;
+  margin: 0 0 var(--sp-16) 0;
+}
+.abog-hero__img{
+  width:100%; height:auto; display:block;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+}
+
+/* Mini “self-view” superpuesto */
+.abog-selfview{
+  position:absolute; left:10px; top:10px;
+  width:110px; border-radius: 14px; border:2px solid var(--blanco);
+  background:#fff; box-shadow: var(--shadow-md); overflow:hidden;
+}
+.abog-selfview__img{ width:100%; height:auto; display:block; }
+
+/* Título + CTA */
+.abog-hero__title{
+  font-weight:800; line-height:1.15; margin: 0 0 var(--sp-16) 0;
+  font-size: clamp(22px, 5.8vw, 28px);
+  text-wrap: balance;
+}
+.abog-hero__cta{
+  width:100%; justify-content:center; gap:10px;
+}
+
+/* ===== Bloques debajo ===== */
+.abog-block{
+  background:#fff; border:1px solid var(--gris-300);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-16);
+}
+.abog-block h2{
+  margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--negro);
+}
+.abog-block p{
+  margin:0 0 14px 0; color:#333; line-height:1.35;
+}
+
+/* ===== Botones reutilizables ===== */
+.abog-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 14px 18px; border-radius: 14px; border:1px solid transparent;
+  font-weight:700; cursor:pointer; text-align:center;
+}
+.abog-btn--primary{ background: var(--rosa-primario); color:#fff; }
+.abog-btn--dark{ background:#121212; color:#fff; }
+.abog-btn--ghost{ background:transparent; color:var(--rosa-primario); border-color: currentColor; }
+
+/* ===== Desktop tweaks (mantener “lo más parecido” al PC) ===== */
+@media (min-width: 769px){
+  .abog-home{ padding: 24px 32px; max-width: 1120px; margin:0 auto; }
+  .abog-hero{ padding: 20px; }
+  .abog-hero__media{ margin-bottom: 20px; }
+  .abog-selfview{ left:14px; top:14px; width:140px; }
+  .abog-hero__title{ font-size: clamp(26px, 2.2vw, 34px); }
+  .abog-block{ padding: 20px; }
+}

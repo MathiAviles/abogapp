@@ -2,67 +2,68 @@
 
 /* Contenedor principal de toda la sección */
 .specialties-section {
-  background-color: #ffffff; /* Fondo blanco para esta sección */
-  padding: 80px 40px; /* Espacio vertical y horizontal */
+  background-color: #ffffff;
+  padding: 80px 40px;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centra la grilla y el botón */
+  align-items: center;
 }
 
-/* La grilla que contiene todas las tarjetas de especialidades */
+/* ===== Desktop (grilla 3 columnas) ===== */
 .specialties-grid {
   display: grid;
-  /* Crea 3 columnas de tamaño igual que ocupan el espacio disponible */
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 25px; /* Espacio entre las tarjetas */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
   width: 100%;
-  max-width: 1100px; /* Ancho máximo para la grilla en pantallas grandes */
-  margin-bottom: 40px; /* Espacio antes del botón "Mostrar más" */
+  max-width: 1100px;
+  margin-bottom: 40px;
 }
 
-/* Estilo para cada tarjeta individual */
+/* Tarjeta base (desktop) */
 .specialty-card {
   display: flex;
-  align-items: center; /* Centra los elementos verticalmente */
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   padding: 20px;
-  border: 1px solid #e0e0e0; /* Borde sutil */
-  border-radius: 12px; /* Bordes redondeados */
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease; /* Transición suave para el hover */
+  transition: all 0.25s ease;
   background-color: #fff;
 }
 
 .specialty-card:hover {
-  border-color: #E85D99; /* Borde rosa al pasar el mouse */
-  transform: translateY(-5px); /* Efecto de elevación */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07); /* Sombra más pronunciada */
+  border-color: #E85D99;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.07);
 }
 
-/* Estilo para el ícono dentro de la tarjeta */
+.spec-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+
 .specialty-icon {
-  font-size: 2em; /* Tamaño grande para el ícono */
-  margin-right: 15px; /* Espacio entre el ícono y el texto */
+  font-size: 2em;
+  width: 36px; text-align: center;
 }
 
-/* Estilo para el nombre de la especialidad */
 .specialty-name {
   font-size: 1.2em;
   font-weight: 600;
   color: #333;
-  margin: 0; /* Quita el margen por defecto del h3 */
-  flex-grow: 1; /* Hace que el nombre ocupe el espacio disponible */
+  margin: 0;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Estilo para la flecha a la derecha */
 .specialty-arrow {
   font-size: 1.5em;
   color: #aaa;
-  transition: color 0.3s ease;
+  transition: color 0.25s ease;
 }
 
-.specialty-card:hover .specialty-arrow {
-  color: #E85D99; /* La flecha se vuelve rosa en el hover */
-}
+.specialty-card:hover .specialty-arrow { color: #E85D99; }
 
 /* Estilo para el botón "Mostrar más" */
 .show-more-btn {
@@ -74,10 +75,66 @@
   border: 1px solid #ccc;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .show-more-btn:hover {
   background-color: #f5f5f5;
   border-color: #333;
+}
+
+/* ===== Mobile (lista vertical tipo Preply) ===== */
+@media (max-width: 768px){
+  .specialties-section{
+    padding: 20px 16px 28px;
+    align-items: stretch; /* que la lista ocupe todo el ancho */
+  }
+
+  /* La grilla se vuelve lista vertical */
+  .specialties-grid{
+    display: block;
+    max-width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .specialty-card{
+    padding: 14px 4px;
+    border: 0;
+    border-bottom: 1px solid #ececf2; /* divisor sutil */
+    border-radius: 0;
+    box-shadow: none;
+    transform: none;
+    background: #fff;
+    gap: 8px;
+  }
+
+  .specialty-card:hover{
+    border-color: #ececf2;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .specialty-icon{
+    font-size: 20px;
+    width: 32px; min-width: 32px;
+  }
+
+  .specialty-name{
+    font-size: 16px;
+    font-weight: 800;
+    color: #111;
+  }
+
+  .specialty-arrow{
+    font-size: 18px;
+    color: #111;
+  }
+
+  .show-more-btn{
+    width: 100%;
+    max-width: 360px;
+    margin: 12px auto 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
 }

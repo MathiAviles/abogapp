@@ -8,3 +8,17 @@ __pycache__/
 instance/
 *.sqlite
 *.db
+
+# .env
+/.env
+
+# Python / Flask
+backend/venv/
+
+# React
+frontend/node_modules/
+frontend/build/
+frontend/.cache/
+**/.cache/
+*.log
+node_modules/

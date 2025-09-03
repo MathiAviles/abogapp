@@ -4,7 +4,39 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './BookingPage.css';
 
-function BookingPage() {
+// ---- Helpers locales (sin UTC) ----
+function formatLocalDateYMD(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function parseSlotToMinutes(s) {
+  if (!s) return 0;
+  const raw = String(s).trim().toLowerCase();
+  // 12h "5:30pm" / "5:30 pm" / "11pm"
+  let m = raw.match(/^(\d{1,2})(?::(\d{2}))?\s*([ap]m)$/i);
+  if (m) {
+    let hh = parseInt(m[1], 10);
+    const mi = parseInt(m[2] || '0', 10);
+    const ap = m[3];
+    if (ap.toLowerCase() === 'am') {
+      if (hh === 12) hh = 0;
+    } else {
+      if (hh < 12) hh += 12;
+    }
+    return hh * 60 + mi;
+  }
+  // 24h "18:30" / "07:00" [/ "07:00:00"]
+  m = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (m) {
+    return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+  }
+  return 0;
+}
+
+export default function BookingPage() {
   const { abogadoId } = useParams();
   const [abogado, setAbogado] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -36,8 +68,10 @@ function BookingPage() {
   }, [abogadoId]);
 
   useEffect(() => {
-    const dateKey = selectedDate.toISOString().split('T')[0];
-    setAvailableSlots(availabilities[dateKey] || []);
+    const dateKey = formatLocalDateYMD(selectedDate); // <- local seguro
+    const slots = availabilities[dateKey] || [];
+    const ordered = [...slots].sort((a, b) => parseSlotToMinutes(a) - parseSlotToMinutes(b));
+    setAvailableSlots(ordered);
     setSelectedSlot(null);
   }, [selectedDate, availabilities]);
 
@@ -46,15 +80,16 @@ function BookingPage() {
       alert("Por favor, selecciona una hora para tu cita.");
       return;
     }
-    // Pasamos los datos de la cita a través del estado de la ruta
-    navigate('/pago', { 
-        state: { 
-            lawyer: abogado, 
-            date: selectedDate.toISOString().split('T')[0],
-            slot: selectedSlot 
-        } 
+    navigate('/pago', {
+      state: {
+        lawyer: abogado,
+        date: formatLocalDateYMD(selectedDate), // <- local seguro
+        slot: selectedSlot
+      }
     });
   };
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
 
   if (loading) {
     return <div className="loading-container">Cargando disponibilidad...</div>;
@@ -70,14 +105,14 @@ function BookingPage() {
         <h1>Reserva tu cita con</h1>
         <h2>{abogado.nombres} {abogado.apellidos}</h2>
         <p>Especialista en {abogado.especialidad}</p>
-        
+
         <div className="booking-calendar-wrapper">
           <div className="booking-calendar-view">
             <h3>1. Selecciona un día</h3>
             <Calendar
               onChange={setSelectedDate}
               value={selectedDate}
-              minDate={new Date()}
+              minDate={today}
             />
           </div>
           <div className="booking-slots-view">
@@ -85,8 +120,8 @@ function BookingPage() {
             {availableSlots.length > 0 ? (
               <div className="booking-slots-grid">
                 {availableSlots.map(slot => (
-                  <button 
-                    key={slot} 
+                  <button
+                    key={slot}
                     className={`slot-button-book ${selectedSlot === slot ? 'selected' : ''}`}
                     onClick={() => setSelectedSlot(slot)}
                   >
@@ -107,5 +142,3 @@ function BookingPage() {
     </div>
   );
 }
-
-export default BookingPage;

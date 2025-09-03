@@ -10,7 +10,19 @@
   background: #ffffff;
   border-radius: 16px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  overflow: visible; /* importante para que la barra sticky no quede "cortada" */
+}
+
+/* Intro video (si existe) arriba del perfil */
+.public-intro-video { width: 100%; background: #000; }
+.public-intro-video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
 }
 
 .profile-header {
@@ -45,22 +57,66 @@
   color: #666;
 }
 
-.profile-actions {
-  display: flex;
-  gap: 15px;
+.profile-actions { display: flex; gap: 15px; }
+.profile-rating-row { margin-top: 6px; line-height: 1; display: flex; align-items: center; gap: 8px; color:#666; }
+
+/* ====== Pestañitas (atajos) ====== */
+.profile-quicknav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 4px 14px rgba(0,0,0,.04);
 }
 
-.profile-body {
-  padding: 40px;
+.quicknav-scroll {
+  display: flex;
+  gap: 10px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
+
+/* Píldoras */
+.quicktab {
+  white-space: nowrap;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid #e7e7e7;
+  background: #fafafa;
+  color: #333;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease, transform .06s ease;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.quicktab:hover { background: #f1f1f1; }
+.quicktab:active { transform: translateY(1px); }
+
+/* 🔥 Activa en ROSADO según sección visible */
+.quicktab.active {
+  background: #E85D99;
+  color: #fff;
+  border-color: #E85D99;
+}
+
+.quicktab:focus-visible {
+  outline: 3px solid rgba(232,93,153,.35);
+  outline-offset: 2px;
+}
+
+/* ====== Cuerpo del perfil ====== */
+.profile-body { padding: 40px; }
 
 .profile-section {
   margin-bottom: 40px;
+  scroll-margin-top: 110px; /* offset para scrollIntoView/anchors bajo la barra sticky */
 }
-
-.profile-section:last-child {
-  margin-bottom: 0;
-}
+.profile-section:last-child { margin-bottom: 0; }
 
 .profile-section h3 {
   font-size: 1.5rem;
@@ -78,28 +134,16 @@
   font-size: 1.05em;
 }
 
+/* Disponibilidad */
 .public-availability-wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 30px;
   margin-top: 20px;
 }
-
-.public-calendar-view {
-  flex: 1;
-  min-width: 300px;
-}
-
-.public-slots-view {
-  flex: 1;
-  min-width: 300px;
-}
-
-.public-slots-view h4 {
-  margin-top: 0;
-  color: #333;
-}
-
+.public-calendar-view { flex: 1; min-width: 300px; }
+.public-slots-view { flex: 1; min-width: 300px; }
+.public-slots-view h4 { margin-top: 0; color: #333; }
 .public-slots-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -107,7 +151,6 @@
   max-height: 300px;
   overflow-y: auto;
 }
-
 .slot-tag {
   background-color: #e9f5ff;
   color: #007bff;
@@ -116,4 +159,125 @@
   padding: 8px;
   text-align: center;
   font-weight: 500;
+}
+
+/* Álbum público */
+.public-album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-content: start;
+  justify-items: start;
+}
+.public-album-item {
+  margin: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f3f3f7;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 10px 24px rgba(0,0,0,.07);
+  cursor: zoom-in;
+}
+.public-album-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  object-position: center;
+}
+
+@media (max-width: 640px) {
+  .public-album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ====== Lightbox ====== */
+.lb-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 28px;
+}
+.lb-overlay img {
+  max-width: min(96vw, 1280px);
+  max-height: calc(100vh - 160px);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.lb-close,
+.lb-prev,
+.lb-next {
+  position: absolute;
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.lb-close { top: 22px; right: 22px; width: 40px; height: 40px; font-size: 22px; line-height: 38px; text-align: center; }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); width: 48px; height: 64px; font-size: 34px; line-height: 60px; text-align: center; }
+.lb-prev { left: 18px; }
+.lb-next { right: 18px; }
+.lb-close:hover,
+.lb-prev:hover,
+.lb-next:hover { background: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.04); }
+.lb-close:hover { transform: scale(1.06); }
+
+/* ====== MOBILE ====== */
+@media (max-width: 768px) {
+  .profile-container { padding: 16px 12px; }
+  .profile-card { border-radius: 12px; }
+
+  .profile-header {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 12px;
+    padding: 16px;
+    align-items: center;
+  }
+  .profile-image-large {
+    width: 92px; height: 92px;
+    border-width: 4px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.12);
+  }
+  .profile-header-info h1 { font-size: 1.4rem; margin-bottom: 2px; }
+  .profile-header-info h2 { font-size: .95rem; margin-bottom: 8px; color:#777; }
+
+  .profile-actions-desktop { display: none; }            /* ocultamos acciones de desktop */
+  .profile-actions-mobile {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .icon-btn {
+    width: 44px; height: 44px; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .primary-cta-link { flex: 1; }
+  .primary-cta {
+    width: 100%; height: 44px; border: none; border-radius: 12px; background: #E85D99; color: #fff;
+    font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(232,93,153,.25);
+  }
+
+  /* Barra de pestañas bajo el header del sitio */
+  .profile-quicknav { top: 56px; }
+
+  .profile-body { padding: 16px; }
+  .profile-section { scroll-margin-top: 120px; }
+
+  /* Disponibilidad en una columna */
+  .public-availability-wrapper { flex-direction: column; gap: 16px; }
+  .public-calendar-view,
+  .public-slots-view { min-width: 0; }
+  .public-slots-grid { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+
+  /* Texto un poco más compacto */
+  .profile-section p { font-size: 1rem; line-height: 1.6; }
 }

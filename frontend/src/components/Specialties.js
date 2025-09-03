@@ -28,21 +28,27 @@ function Specialties() {
 
   return (
     // Contenedor principal para la sección con fondo blanco
-    <section className="specialties-section">
-      {/* Contenedor para la grilla de 3 columnas */}
+    <section className="specialties-section" aria-label="Especialidades">
+      {/* Contenedor (grilla en desktop, lista en móvil) */}
       <div className="specialties-grid">
         {specialties.map((specialty) => (
           <div
             key={specialty.name}
             className="specialty-card"
             onClick={() => handleSpecialtyClick(specialty.name)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSpecialtyClick(specialty.name)}
           >
-            <span className="specialty-icon">{specialty.icon}</span>
-            <h3 className="specialty-name">{specialty.name}</h3>
-            <span className="specialty-arrow">→</span>
+            <div className="spec-left">
+              <span className="specialty-icon" aria-hidden="true">{specialty.icon}</span>
+              <h3 className="specialty-name">{specialty.name}</h3>
+            </div>
+            <span className="specialty-arrow" aria-hidden="true">›</span>
           </div>
         ))}
       </div>
+
       <button className="show-more-btn">+ Mostrar más</button>
     </section>
   );

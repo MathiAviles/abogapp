@@ -1,0 +1,113 @@
+/* --- Contenedor Principal del Botón --- */
+.heart-btn {
+  --hb-size: 24px; /* Variable para el tamaño, se sobrescribe desde el prop */
+  --hb-color-active: #e2264d; /* Color rojo para el estado activo */
+  --hb-color-inactive: #a8a2a2; /* Color gris para el borde inactivo */
+
+  width: var(--hb-size);
+  height: var(--hb-size);
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  position: relative;
+  
+  /* Evita que el click se registre dos veces en mobile */
+  -webkit-tap-highlight-color: transparent; 
+}
+
+/* --- Wrapper para el SVG --- */
+.heart-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.heart-btn:hover .heart-icon-wrapper {
+  transform: scale(1.1);
+}
+
+.heart-btn:active .heart-icon-wrapper {
+  transform: scale(0.95);
+}
+
+/* --- Estilos del SVG y sus partes --- */
+.heart-btn svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible; /* Importante para que las partículas se vean fuera del frame */
+}
+
+/* El corazón principal (relleno) */
+.heart-fill {
+  fill: var(--hb-color-inactive);
+  stroke: var(--hb-color-inactive);
+  stroke-width: 1.5;
+  transform-origin: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: scale(1);
+}
+
+/* --- Estado Activo y Animaciones --- */
+
+/* Cuando el botón está activo, cambiamos el color y la escala del corazón */
+.heart-btn.is-active .heart-fill {
+  fill: var(--hb-color-active);
+  stroke: var(--hb-color-active);
+  animation: heart-pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes heart-pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+
+
+/* Círculo de explosión de fondo */
+.heart-blast {
+  fill: var(--hb-color-active);
+  transform-origin: center;
+  transform: scale(0);
+  opacity: 0;
+}
+
+.heart-btn.is-active .heart-blast {
+  animation: blast-out 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes blast-out {
+  0% { transform: scale(0); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+
+/* Partículas */
+.heart-particles {
+  transform-origin: center;
+  opacity: 0;
+}
+
+.heart-particles circle {
+  fill: var(--hb-color-active);
+  transform-origin: center;
+}
+
+.heart-btn.is-active .heart-particles {
+  animation: particles-fly 0.7s ease-out forwards;
+}
+
+/* Animación para que las partículas "vuelen" hacia afuera */
+@keyframes particles-fly {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}

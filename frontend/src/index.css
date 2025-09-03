@@ -1,13 +1,180 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+/* =========================
+   Resets y tipografías base
+   ========================= */
+:root{
+  --rosa-primario:#E85D99;
+  --negro:#111111;
+  --gris-700:#3a3a3a;
+  --gris-400:#cfcfda;
+  --gris-300:#e9e9ee;
+  --blanco:#ffffff;
+
+  --radius-md:12px;
+  --radius-lg:16px;
+  --radius-xl:24px;
+  --shadow-md:0 12px 28px rgba(0,0,0,.16);
+
+  --sp-8:8px;
+  --sp-12:12px;
+  --sp-16:16px;
+  --sp-20:20px;
+  --sp-24:24px;
+  --sp-32:32px;
+
+  --safe-top: env(safe-area-inset-top);
+  --safe-bottom: env(safe-area-inset-bottom);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*{ box-sizing:border-box; }
+html, body, #root { height:100%; width:100%; max-width:100%; overflow-x:hidden; }
+
+body{
+  margin:0;
+  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu','Cantarell','Fira Sans','Droid Sans','Helvetica Neue',sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  color:var(--negro);
+  background:var(--blanco);
+}
+
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; cursor:pointer; }
+img, video, canvas{ max-width:100%; height:auto; }
+
+/* =========================================================
+   HOME (bloques de AbogApp) — Mobile-first (SIN imágenes)
+   ========================================================= */
+.abog-home{
+  display:flex; flex-direction:column; gap:var(--sp-24);
+  padding:var(--sp-16);
+}
+
+.abog-hero{
+  background:var(--rosa-primario);
+  color:var(--blanco);
+  border-radius:var(--radius-xl);
+  padding:var(--sp-16);
+  position:relative;
+  overflow:hidden;
+  margin-top:6px;
+}
+
+/* Título del hero (texto) */
+.abog-hero__title{
+  font-weight:800;
+  line-height:1.18;
+  letter-spacing:-0.1px;
+  margin:0 0 var(--sp-16) 0;
+  font-size:clamp(16px, 4.8vw, 20px); /* equilibrado en móvil */
+  max-width:30ch;
+  text-wrap:balance;
+}
+
+/* CTA + botones reutilizables */
+.abog-btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid transparent;
+  font-weight:700;
+}
+.abog-btn--primary{ background:var(--rosa-primario); color:#fff; }
+.abog-btn--dark{ background:#121212; color:#fff; }
+.abog-btn--ghost{ background:transparent; color:var(--rosa-primario); border-color:currentColor; }
+.abog-hero__cta{ width:100%; height:44px; }
+
+/* Bloques debajo del hero */
+.abog-block{
+  background:#fff;
+  border:1px solid var(--gris-300);
+  border-radius:var(--radius-lg);
+  padding:var(--sp-16);
+}
+.abog-block h2{ margin:0 0 6px 0; font-size:18px; font-weight:800; color:var(--negro); }
+.abog-block p{ margin:0 0 14px 0; color:#333; line-height:1.35; }
+
+/* =========================
+   Desktop / pantallas anchas
+   ========================= */
+@media (min-width:769px){
+  .abog-home{ padding:24px 32px; max-width:1120px; margin:0 auto; }
+  .abog-hero{ padding:20px; }
+  .abog-hero__title{
+    font-size:clamp(26px, 2.2vw, 34px);
+    line-height:1.15; max-width:36ch;
+  }
+  .abog-block{ padding:20px; }
+}
+
+/* ============================================
+   Ajustes del header SOLO en móvil (sin desktop)
+   ============================================ */
+@media (max-width:768px){
+  .header{
+    padding-left:12px !important;
+    padding-right:12px !important;
+  }
+  .header .header-left-section{ margin-left:0 !important; }
+  .header .logo{ margin-left:0 !important; }
+  .header .logo-img{
+    margin-left:6px !important;    /* ni tan pegado ni centrado */
+    max-height:28px; height:auto;
+    display:block;
+  }
+
+  /* elimina cualquier divisor del header en móvil (evita línea blanca) */
+  .header,
+  .abog-hdr{
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+  }
+  .header::after,
+  .abog-hdr::after{
+    content: none !important;
+    display: none !important;
+  }
+}
+
+/* ============================================
+   Hero de TEXTO heredado (.main-content) en móvil
+   — Muy corto (como tu referencia)
+   ============================================ */
+@media (max-width:768px){
+  .main-content{
+    margin-top:0 !important;
+    padding:12px 12px 10px !important;  /* sube el texto un poco */
+    text-align:center !important;       /* asegura centrado perfecto */
+  }
+
+  .main-content h1,
+  .main-content .main-title,
+  .main-content .title{
+    font-size:clamp(35px, 6.5vw, 35px) !important;
+    line-height:1.2 !important;
+    margin:2px auto 6px !important;   /* un poquito más arriba */
+    max-width:22ch !important;        /* más centrado visualmente */
+    letter-spacing:-0.1px;
+    text-wrap:balance;
+  }
+
+  .main-content p{
+    font-size:clamp(12px, 3.2vw, 14px) !important;
+    line-height:1.35 !important;
+    margin:4px auto 0 !important;
+    max-width:34ch !important;
+  }
+}
+
+/* =========================
+   Helpers anti-overflow
+   ========================= */
+.App, main, .container, .page{ max-width:100vw; overflow-x:hidden; }
+
+/* =========================
+   Code block heredado
+   ========================= */
+code{
+  font-family:source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }

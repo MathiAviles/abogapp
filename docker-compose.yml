@@ -6,11 +6,22 @@ services:
       - "5001:5000"
     volumes:
       - ./backend:/app
+      - ./backend/uploads:/app/uploads  # persistir KYC
+      - ./backend/instance:/app/instance
     environment:
       - FLASK_ENV=development
-      - STREAM_API_KEY=TU_API_KEY_DE_STREAM  # <-- AÑADE ESTO
-      - STREAM_API_SECRET=TU_API_SECRET_DE_STREAM # <-- AÑADE ESTO
-
+      - STREAM_API_KEY=3qbb5mez5zqm
+      - STREAM_API_SECRET=yx2rc4rffddg786ppxg7zby4h8j8xwz9kxqvxneh622hyyteuj9xqkzqd847cfeq
+      - APP_TIMEZONE=America/Panama
+      - TZ=America/Panama
+      - BREVO_API_KEY=${BREVO_API_KEY}
+      - FRONTEND_URL=http://localhost:3000
+      - SENDER_EMAIL=no-reply@myabogapp.com
+      - APP_NAME=AbogApp
+      - ADMIN_CREATE_SECRET=CristianoRonaldoBetterThanMessi
+      - JWT_SECRET_KEY=superdevsecret
+      - BREVO_TMPL_LAWYER_APPROVED=1  # cambia por tu ID real
+      - BREVO_TMPL_LAWYER_REJECTED=2
   frontend:
     build: ./frontend
     container_name: react_frontend

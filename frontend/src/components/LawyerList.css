@@ -1,3 +1,4 @@
+/* ====== ESTILOS GENERALES Y DE TARJETAS (DESKTOP) ====== */
 .lawyer-list-container {
   background-color: #f9f9f9;
   padding: 40px 20px;
@@ -13,25 +14,26 @@
 
 .lawyer-results {
   max-width: 900px;
-  margin: 0 auto;
+  margin: 40px auto 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 .lawyer-card-detailed {
+  position: relative;
   display: flex;
   gap: 20px;
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: box-shadow 0.3s ease;
 }
 
 .lawyer-card-detailed:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .lawyer-card-left { flex-shrink: 0; }
@@ -46,10 +48,7 @@
 
 .lawyer-card-main { flex-grow: 1; }
 
-.lawyer-name-link {
-  text-decoration: none;
-  color: inherit;
-}
+.lawyer-name-link { text-decoration: none; color: inherit; }
 
 .lawyer-name {
   margin: 0 0 8px 0;
@@ -57,10 +56,7 @@
   color: #222;
 }
 
-.verified-check {
-  color: #007bff;
-  font-size: 0.8em;
-}
+.verified-check { color: #007bff; font-size: 0.8em; }
 
 .lawyer-meta {
   color: #666;
@@ -74,55 +70,60 @@
   font-size: 0.95em;
 }
 
+/* ----------- Columna derecha ----------- */
 .lawyer-card-right {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   flex-shrink: 0;
-  width: 160px;
-  gap: 8px;
+  width: 200px;
+  gap: 10px;
+  padding: 8px 0;
 }
 
-.lawyer-rating {
-  font-weight: bold;
-  font-size: 1.2em;
+.lawyer-right-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
 }
 
-.star { color: #f0ad4e; }
+.rating-compact { display: inline-flex; align-items: center; gap: 8px; line-height: 1; }
+.rating-compact * { line-height: 1; }
 
-.review-count, .lawyer-price {
-  font-size: 0.9em;
-  color: #777;
+.rating-value { font-size: 16px; font-weight: 700; color: #111; }
+
+.rating-caption {
+  font-size: 12px;
+  color: #8a8a8a;
+  line-height: 1.15;
+  text-align: right;
+  max-width: 180px;
 }
 
-.lawyer-price {
-  font-weight: bold;
-  color: #333;
-}
+.lawyer-price { font-weight: bold; color: #333; }
 
-/* --- ESTILOS CORREGIDOS PARA LOS BOTONES --- */
-.btn-primary-action, .btn-secondary-action {
-  /* Eliminamos el 'width: 100%' para que no ocupe todo el espacio */
-  padding: 10px 16px; /* Ajustamos el padding para un tamaño adecuado */
+.btn-primary-action,
+.btn-secondary-action {
+  padding: 10px 16px;
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
   border: 1px solid;
   transition: all 0.2s ease;
-  font-size: 0.9em; /* Hacemos la fuente un poco más pequeña */
+  font-size: 0.9em;
+  margin-top: 4px;
 }
 
-.btn-primary-action {
-  background-color: #E85D99;
-  color: white;
-  border-color: #E85D99;
-}
+.btn-primary-action { background-color: #E85D99; color: white; border-color: #E85D99; }
+.btn-secondary-action { background-color: white; color: #555; border-color: #ccc; }
 
-.btn-secondary-action {
-  background-color: white;
-  color: #555;
-  border-color: #ccc;
+.card-heart {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  z-index: 2;
 }
 
 .no-results {
@@ -130,4 +131,391 @@
   font-size: 1.2em;
   color: #888;
   padding: 50px;
+}
+
+/* ====== BARRA DE FILTROS (DESKTOP) ====== */
+.ll-filters-bar {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  flex-wrap: wrap;            /* el buscador cabe a la derecha */
+}
+
+.ll-filter-container { position: relative; }
+
+.ll-filter-button {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.ll-filter-button:hover { border-color: #999; }
+
+.ll-filter-button.active {
+  border-color: #E85D99;
+  box-shadow: 0 0 0 2px rgba(232, 93, 153, 0.2);
+}
+
+.ll-button-content { display: flex; flex-direction: column; gap: 2px; }
+
+.ll-button-label {
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.ll-button-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ll-dropdown-arrow {
+  font-size: 0.6rem;
+  color: #888;
+  transition: transform 0.2s ease;
+}
+.ll-filter-button.active .ll-dropdown-arrow { transform: rotate(180deg); }
+
+/* --- Dropdowns y su contenido --- */
+.ll-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ll-dropdown-title { font-weight: 600; font-size: 1rem; color: #333; }
+
+.ll-dropdown--price { width: 280px; }
+
+/* Layout vertical para disponibilidad */
+.ll-dropdown--availability {
+  width: 320px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ll-dropdown--sort { width: 250px; padding: 8px; gap: 4px; }
+
+.ll-range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+}
+
+.ll-range-inputs { position: relative; height: 28px; }
+
+.ll-dropdown-section { flex: 1; }
+
+.ll-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.ll-hours-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 8px;
+}
+
+.ll-chip {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all .15s ease;
+  text-align: center;
+}
+.ll-chip:hover { border-color: #b0b0b0; background: #f5f5f5; }
+.ll-chip.active { background: #E85D99; color: #fff; border-color: #E85D99; }
+
+.ll-sort-option {
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease;
+}
+.ll-sort-option:hover { background-color: #f5f5f5; }
+.ll-sort-option.active {
+  background-color: rgba(232, 93, 153, 0.1);
+  color: #E85D99;
+  font-weight: 600;
+}
+
+/* 🔎 Buscador a la derecha de "Ordenar por" */
+.ll-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 260px;
+}
+.ll-search-icon { font-size: 0.95rem; line-height: 1; }
+.ll-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+}
+.ll-search-input::placeholder { color: #999; }
+.ll-search-clear {
+  border: none;
+  background: none;
+  color: #999;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.ll-search-clear:hover { color: #666; }
+
+.ll-clear-button {
+  margin-left: auto;
+  align-self: center;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+.ll-clear-button:hover { background-color: #f0f0f0; }
+
+/* --- Estilos para input[type=range] --- */
+.ll-range-inputs input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  pointer-events: none;
+  margin: 0;
+}
+.ll-range-inputs input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #E85D99;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #E85D99;
+  cursor: grab;
+}
+.ll-range-inputs input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #eee;
+  border-radius: 999px;
+}
+.ll-range-inputs input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #E85D99;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #E85D99;
+  cursor: grab;
+}
+.ll-range-inputs input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: #eee;
+  border-radius: 999px;
+}
+.ll-range-inputs input[type="range"]:focus { outline: none; }
+
+/* ====== RESPONSIVE (MÓVIL) ====== */
+@media (max-width: 768px) {
+  .lawyer-list-container { padding: 16px 12px; }
+  .list-title { font-size: 1.25rem; margin: 8px 0 14px; }
+
+  /* —— Filtros rediseñados como “píldoras” —— */
+  .ll-filters-bar {
+    position: sticky;
+    top: 56px;                     /* altura aprox. del header */
+    background: #f9f9f9;
+    padding: 8px 0 10px;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 8px;
+    row-gap: 8px;
+    align-items: stretch;
+  }
+
+  .ll-filter-button {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    padding: 8px 12px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.02);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ll-filter-button:hover { border-color: #d6d6d6; }
+  .ll-filter-button.active { border-color: #E85D99; box-shadow: 0 0 0 2px rgba(232,93,153,.18); }
+
+  .ll-button-content { flex: 1; min-width: 0; line-height: 1; }
+  .ll-button-label { font-size: 10px; color: #8a8a8a; text-transform: uppercase; letter-spacing: .02em; }
+  .ll-button-value { font-size: 13px; font-weight: 600; color: #111; }
+  .ll-dropdown-arrow { font-size: 10px; color: #999; }
+
+  /* Buscador a ancho completo debajo de los chips */
+  .ll-search {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid #e6e6e6;
+    padding: 8px 12px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.02);
+    background: #fff;
+  }
+  .ll-search-input { font-size: 0.95rem; }
+
+  /* Botón limpiar en móvil (al final) */
+  .ll-clear-button { grid-column: 1 / -1; justify-self: end; padding: 6px 8px; margin-left: 0; }
+
+  /* Dropdowns a pantalla casi completa con margen */
+  .ll-dropdown {
+    width: auto;
+    max-width: none;
+    left: 0;
+    right: 0;
+    transform: translateY(6px);
+    margin: 0 2px;
+    border-radius: 14px;
+    padding: 16px;
+    z-index: 99;
+  }
+
+  .lawyer-results { margin-top: 16px; gap: 12px; }
+
+  /* Tarjeta tipo lista en móvil (sin tocar desktop) */
+  .lawyer-card-detailed {
+    padding: 12px;
+    gap: 12px;
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    grid-template-areas:
+      "avatar name"
+      "avatar bio";
+    align-items: start;
+  }
+  .lawyer-card-left { grid-area: avatar; }
+  .lawyer-card-main { grid-area: bio; }
+  .lawyer-card-right { display: none; }  /* ocultamos la columna derecha en móvil */
+
+  .lawyer-card-image { width: 72px; height: 72px; }
+  .lawyer-name { font-size: 1.05rem; margin-bottom: 4px; }
+  .rating-caption { display: none; }
+
+  /* visibilidad por modo */
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+
+  /* Píldoras informativas bajo el nombre */
+  .ll-pills { display: flex; gap: 6px; margin: 2px 0 6px; }
+  .ll-pill {
+    background: #f3f4f6; color: #111; border: 1px solid #e5e7eb; padding: 4px 8px; border-radius: 999px;
+    font-size: .75rem; font-weight: 700; line-height: 1;
+  }
+  .ll-pill-ghost { background: #fff; }
+
+  /* Fila compacta ⭐ + precio */
+  .ll-row-compact { display: flex; align-items: center; justify-content: space-between; margin: 6px 0; }
+  .ll-compact-rating .star { margin-right: 4px; }
+  .ll-compact-rating strong { margin-right: 6px; }
+  .ll-compact-rating .muted { color: #6b7280; font-size: .85rem; }
+  .ll-compact-price strong { color: #E85D99; }
+  .ll-compact-price .muted { color: #6b7280; font-size: .85rem; margin-left: 4px; }
+
+  /* Lista de info */
+  .ll-info-list { list-style: none; padding: 0; margin: 6px 0 4px; display: grid; gap: 6px; }
+  .ll-info-list li { display: flex; align-items: center; gap: 8px; color: #333; font-size: .92rem; }
+  .ll-info-list .ic { width: 18px; display: inline-flex; justify-content: center; }
+
+  /* Bio + leer más */
+  .ll-bio-wrap { margin-top: 6px; }
+  .lawyer-bio {
+    margin: 0; color: #333;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .lawyer-bio.expanded { -webkit-line-clamp: unset; display: block; }
+  .ll-readmore {
+    border: none; background: none; color: #007bff; padding: 4px 0; font-weight: 600; cursor: pointer;
+  }
+
+  /* Acciones: chat + CTA grande */
+  .ll-actions { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .ll-icon-btn {
+    width: 44px; height: 44px; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .ll-primary-btn-link { flex: 1; }
+  .ll-primary-btn {
+    width: 100%; height: 44px; border: none; border-radius: 12px; background: #E85D99; color: #fff;
+    font-weight: 800; cursor: pointer; box-shadow: 0 6px 18px rgba(232,93,153,.25);
+  }
+
+  .btn-primary-action,
+  .btn-secondary-action { width: 100%; }
+
+  .card-heart { top: 8px; right: 8px; }
+}
+
+/* helper visibilidad en desktop */
+@media (min-width: 769px) {
+  .mobile-only { display: none !important; }
+  .desktop-only { display: block !important; }
 }

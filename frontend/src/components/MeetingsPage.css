@@ -1,61 +1,122 @@
-.meetings-page-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 20px;
-  min-height: 60vh;
-}
+/* ===== Desktop (se mantiene) ===== */
+.meetings-page-container{max-width:900px;margin:40px auto;padding:20px;min-height:60vh}
 
-.meetings-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.tabs{display:flex;gap:10px;margin:10px 0 24px}
+.tab{padding:10px 16px;border-radius:8px;border:1px solid #eee;background:#fff;cursor:pointer;font-weight:600}
+.tab.active{background:#E85D99;color:#fff;border-color:#E85D99}
 
-.meeting-card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
+.meetings-list{display:flex;flex-direction:column;gap:16px}
 
-.meeting-details .meeting-date {
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #333;
-}
+.meeting-card{display:flex;justify-content:space-between;align-items:center;padding:18px;background:#fff;border:1px solid #e0e0e0;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.05)}
 
-.meeting-details .meeting-with {
-  margin: 8px 0;
-  color: #555;
-}
+.meeting-details .meeting-date{font-weight:700;font-size:1.05em;color:#333}
+.meeting-details .meeting-with{margin:6px 0 10px;color:#555}
 
-.meeting-status {
-  font-size: 0.9em;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-weight: bold;
-}
+.meeting-status.chip{display:inline-block;font-size:.85em;padding:6px 10px;border-radius:999px;font-weight:700;letter-spacing:.2px}
+.status-confirmada{background:#d4edda;color:#155724}
+.status-por-comenzar{background:#fff3cd;color:#856404}
+.status-iniciada{background:#d1ecf1;color:#0c5460}
+.status-finalizada{background:#e2e3e5;color:#383d41}
 
-.status-confirmada {
-  background-color: #d4edda;
-  color: #155724;
-}
+.meeting-countdown{margin-top:8px;font-size:.9em;color:#666}
 
-.meeting-actions .connect-btn {
-  background-color: #E85D99;
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
+.meeting-actions{display:flex;align-items:center;gap:10px}
+.msg-btn{background:#fff;border:1px solid #E85D99;color:#E85D99;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer}
+.msg-btn:hover{background:#ffe3f0}
 
-.connect-btn:hover {
-  background-color: #d14a83;
+.connect-btn{background:#E85D99;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer;transition:filter .2s}
+.connect-btn:hover{filter:brightness(.95)}
+.connect-btn.disabled,.connect-btn:disabled{background:#f0a9c6;cursor:not-allowed;filter:none}
+
+.empty-text{color:#666}
+
+/* ===== Solo móvil ===== */
+@media (max-width: 768px){
+  .meetings-page-container{
+    padding:14px 12px;
+    margin:0 auto;
+    min-height:calc(100vh - 56px);
+    background:#f9f9fb;
+  }
+
+  /* Tabs sticky tipo píldoras, scrolleables si no caben */
+  .tabs{
+    position: sticky;
+    top: calc(56px + env(safe-area-inset-top, 0px)); /* debajo del header */
+    z-index: 5;
+    background:#f9f9fb;
+    padding:8px 4px 10px;
+    margin:0 0 14px;
+    gap:8px;
+    display:flex;
+    overflow-x:auto;
+    -webkit-overflow-scrolling: touch;
+    box-shadow: 0 4px 14px rgba(0,0,0,.04);
+  }
+  .tab{
+    padding:10px 14px;
+    border-radius:999px;
+    border:1px solid #e7e7e7;
+    background:#fff;
+    font-weight:800;
+    letter-spacing:.2px;
+    white-space:nowrap;
+  }
+  .tab.active{
+    background:#E85D99;color:#fff;border-color:#E85D99;
+    box-shadow:0 8px 18px rgba(232,93,153,.25);
+  }
+
+  /* Tarjeta compacta en columnas */
+  .meetings-list{gap:12px;}
+  .meeting-card{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:10px;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 6px 20px rgba(0,0,0,.05);
+  }
+
+  .meeting-details .meeting-date{
+    font-size:1rem;
+  }
+  .meeting-details .meeting-with{
+    margin:6px 0 6px;
+    color:#333;
+    font-size:.98rem;
+  }
+  .meeting-status.chip{
+    font-size:.8rem;
+    padding:6px 10px;
+  }
+  .meeting-countdown{
+    margin-top:6px;
+    font-size:.86rem;
+    color:#6b7280;
+  }
+
+  /* Acciones apiladas con CTA grande */
+  .meeting-actions{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap:8px;
+  }
+  .connect-btn{
+    width:100%;
+    height:46px;
+    border-radius:12px;
+    font-weight:800;
+    box-shadow:0 8px 22px rgba(232,93,153,.25);
+  }
+  .msg-btn{
+    width:100%;
+    height:44px;
+    border-radius:12px;
+    background:#fff;
+    color:#E85D99;
+    border:1px solid #E85D99;
+    font-weight:800;
+  }
+  .msg-btn:hover{ background:#fff; filter: brightness(1.02); }
 }

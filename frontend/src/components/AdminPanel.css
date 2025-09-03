@@ -1,61 +1,245 @@
-.admin-panel-container {
-  padding: 40px;
-  background-color: #f9f9f9;
+/* ========== Layout general ========== */
+.ap-container {
+  display: block;           /* quitamos sidebar-column layout */
+  padding: 24px;
+  background: #f7f7fb;
+  min-height: calc(100vh - 200px);
+  box-sizing: border-box;
+}
+
+/* Al remover el sidebar, aseguramos ancho total */
+.ap-no-sidebar .ap-main { width: 100%; }
+
+/* ========== Pestañas ========== */
+.ap-tabs {
+  display: flex;
+  gap: 10px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ap-tab {
+  appearance: none;
+  border: 1px solid #eee;
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ap-tab.active {
+  border-color: #E85D99;
+  background: #ffe7f1;
+  color: #C23674;
+}
+
+/* ========== Section wrapper ========== */
+.ap-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+.ap-section-title {
+  margin: 0 0 12px 0;
+}
+
+/* ========== KPI Dashboard ========== */
+.ap-kpi-grid-large {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.ap-kpi-card {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  gap: 40px; /* Espacio entre el formulario y la lista */
+  justify-content: center;
+}
+.ap-kpi-card span {
+  font-size: 12px;
+  color: #666;
+}
+.ap-kpi-card strong {
+  font-size: 22px;
+  line-height: 1.2;
+}
+.ap-kpi-card small {
+  color: #888;
+}
+.ap-kpi-split {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.ap-kpi-split > div {
+  background: #fff;
+  border: 1px dashed #eee;
+  border-radius: 10px;
+  padding: 10px;
 }
 
-.admin-list-container {
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+/* ========== Chart (SVG/CSS bars) ========== */
+.ap-chart-title {
+  margin: 6px 0 10px 0;
+}
+.ap-chart {
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px;
+}
+.ap-chart-bars {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 10px;
+  align-items: end;
+  min-height: 200px;
+}
+.ap-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.ap-bar {
+  width: 100%;
+  min-height: 2px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #E85D99 0%, #C23674 100%);
+  box-shadow: 0 4px 12px rgba(230, 58, 123, 0.25);
+  transition: transform 120ms ease;
+}
+.ap-bar:hover {
+  transform: translateY(-2px);
+}
+.ap-bar-label {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
 
-.admin-list-container h2 {
-  margin-top: 0;
-}
+/* ========== Formularios y tablas (reutilizado) ========== */
+.ap-form { max-width: 780px; }
+
+.admin-list-container h2 { margin: 0; }
 
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-top: 16px;
+  font-size: 0.95rem;
 }
-
 .admin-table th, .admin-table td {
-  padding: 12px 15px;
+  padding: 12px 14px;
   border-bottom: 1px solid #eee;
   text-align: left;
 }
-
-.admin-table th {
+.admin-table thead th {
   background-color: #f7f7f7;
-  font-weight: 600;
+  font-weight: 700;
 }
-
-.status-active {
-  color: #28a745;
-  font-weight: bold;
-}
-
-.status-inactive {
-  color: #dc3545;
-  font-weight: bold;
-}
-
+.status-active { color: #28a745; font-weight: 700; }
+.status-inactive { color: #dc3545; font-weight: 700; }
 .admin-table button {
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 7px 12px;
+  border-radius: 8px;
   border: none;
   color: white;
   cursor: pointer;
+  font-weight: 600;
+}
+.btn-deactivate { background-color: #ffc107; color: #222; }
+.btn-reactivate { background-color: #17a2b8; }
+
+/* Botoncitos estilo enlace (para abrir visor) */
+.ap-linklike {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: #2563eb;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+.ap-linklike:hover { color: #1e40af; }
+.ap-linklike:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
-.btn-deactivate {
-  background-color: #ffc107;
+/* Forzar visibilidad de los botones-link dentro de la tabla */
+.admin-table .ap-linklike {
+  background: none !important;
+  padding: 0 !important;
+  border: 0 !important;
+  color: #2563eb !important;
+  text-decoration: underline !important;
+  font: inherit !important;
+}
+.admin-table .ap-linklike:hover { color: #1e40af !important; }
+
+/* ========== Modal visor de documentos ========== */
+.ap-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.75); /* slate-900/75 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+.ap-modal-body {
+  position: relative;
+  width: min(92vw, 1100px);
+  height: min(90vh, 800px);
+  background: #0b0f19;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+  overflow: hidden;
+}
+.ap-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: rgba(0,0,0,0.5);
+  border: 0;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1;
+}
+.ap-modal-close:hover { background: rgba(0,0,0,0.7); }
+.ap-modal-close:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 2px;
+}
+.ap-modal-media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* imágenes */
+  border: 0;           /* iframe/pdf */
+  display: block;
 }
 
-.btn-reactivate {
-  background-color: #17a2b8;
+/* ========== Responsivo ========== */
+@media (max-width: 1100px) {
+  .ap-kpi-grid-large { grid-template-columns: repeat(2, 1fr); }
+  .ap-chart-bars { grid-template-columns: repeat(8, 1fr); }
+}
+@media (max-width: 640px) {
+  .ap-kpi-grid-large { grid-template-columns: 1fr; }
+  .ap-chart-bars { grid-template-columns: repeat(6, 1fr); }
 }

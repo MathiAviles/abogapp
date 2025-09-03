@@ -1,0 +1,80 @@
+:root {
+  --jal-bg: #fff;
+  --jal-ink: #1b1b1f;
+  --jal-muted: #6c6675;
+  --jal-rose: #e85d99;
+}
+
+.jal-wrap {
+  background: linear-gradient(180deg, #fff 0%, #f7f3fb 100%);
+  padding: clamp(40px, 6vw, 90px) 16px;
+}
+
+.jal-container {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 5vw, 60px);
+  align-items: center;
+}
+
+.jal-left {
+  display: grid;
+  gap: 20px;
+}
+
+.jal-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  color: var(--jal-ink);
+  margin: 0;
+}
+.jal-accent {
+  color: var(--jal-rose);
+}
+
+.jal-text {
+  font-size: clamp(15px, 1.6vw, 18px);
+  color: var(--jal-muted);
+  line-height: 1.5;
+  margin: 0;
+  max-width: 500px;
+}
+
+.jal-btn {
+  background: var(--jal-rose);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: fit-content;
+}
+.jal-btn:hover {
+  background: #d14a83;
+  transform: translateY(-2px);
+}
+
+.jal-right img {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 16px;
+  box-shadow: 0 14px 28px rgba(0,0,0,.08);
+}
+
+@media (max-width: 900px) {
+  .jal-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .jal-left {
+    justify-items: center;
+  }
+  .jal-text {
+    max-width: none;
+  }
+}

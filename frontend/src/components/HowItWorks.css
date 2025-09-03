@@ -1,0 +1,107 @@
+:root {
+  --hiw-bg: #ffffff;
+  --hiw-surface: #ffffff;
+  --hiw-stroke: #ece6f2;
+  --hiw-ink: #1b1b1f;
+  --hiw-ink-2: #2a2a33;
+  --hiw-muted: #8a8197;
+  --hiw-rose: #e85d99;  /* Rosa AbogApp */
+  --hiw-rose-weak: #ffe6f1;
+}
+
+.hiw-wrap {
+  background: linear-gradient(180deg, #fff 0%, #fff 40%, #f7f3fb 100%);
+  padding: clamp(28px, 6vw, 72px) 16px;
+}
+
+.hiw-container {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.hiw-header {
+  text-align: left;
+  margin-bottom: clamp(18px, 3vw, 28px);
+}
+
+.hiw-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--hiw-ink);
+  margin: 0 0 8px 0;
+}
+.hiw-accent { color: var(--hiw-rose); }
+.hiw-sub {
+  color: var(--hiw-muted);
+  margin: 0;
+  font-size: clamp(14px, 1.5vw, 18px);
+}
+
+.hiw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2.8vw, 24px);
+}
+
+.hiw-card {
+  background: var(--hiw-surface);
+  border: 1px solid var(--hiw-stroke);
+  border-radius: 16px;
+  padding: 18px;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.05);
+}
+
+.hiw-badge {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: #dff7ef;
+  color: #134e4a;
+  font-weight: 800;
+  font-size: 18px;
+  border: 1px solid #cbeee3;
+}
+
+.hiw-card-title {
+  font-size: clamp(18px, 2vw, 28px);
+  line-height: 1.2;
+  margin: 0;
+  color: var(--hiw-ink);
+  letter-spacing: -0.2px;
+}
+
+.hiw-card-body {
+  color: var(--hiw-ink-2);
+  margin: 0;
+  font-size: clamp(14px, 1.5vw, 16px);
+}
+
+/* ==== Caja de imagen ==== */
+.hiw-media {
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Mantiene formato 16:9 */
+  border-radius: 12px;
+  border: 1px solid var(--hiw-stroke);
+  overflow: hidden;
+  background: #f6f1fa;
+  box-shadow: 0 6px 20px rgba(0,0,0,.04);
+  min-height: clamp(160px, 22vw, 240px);
+}
+
+.hiw-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* recorta sin deformar */
+  display: block;
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 980px) {
+  .hiw-grid { grid-template-columns: 1fr; }
+}

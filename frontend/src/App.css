@@ -122,3 +122,9 @@ body {
   color: #333;
   border-top: 1px solid #eee;
 }
+
+.logo-img {
+  height: 40px; /* ajusta según tu header */
+  width: auto;
+  object-fit: contain;
+}

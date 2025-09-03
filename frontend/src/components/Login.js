@@ -1,69 +1,77 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
-import '../Form.css'; // Importa los estilos del formulario
+import '../Form.css';
+
+const API_BASE = process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // Estado para la visibilidad de la contraseña
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { setUserEmail } = useContext(AuthContext);
   const token = localStorage.getItem('token');
 
-  // Redirige si el usuario ya está logueado
   useEffect(() => {
-    if (token) {
-      navigate('/inicio');
-    }
+    if (token) navigate('/inicio');
   }, [token, navigate]);
 
-  // --- ESTA ES LA FUNCIÓN QUE FALTABA ---
   const handleLogin = async (e) => {
-    e.preventDefault(); // Previene que la página se recargue
+    e.preventDefault();
+    setLoading(true);
     try {
-      const response = await fetch('http://localhost:5001/api/login', {
+      const response = await fetch(`${API_BASE}/api/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
+      const data = await response.json().catch(() => ({}));
 
-      if (response.ok) {
-        const data = await response.json();
-        
-        // Guardar la sesión en localStorage
-        localStorage.setItem('token', data.access_token);
-        localStorage.setItem('email', email);
-        localStorage.setItem('role', data.role);
-        
-        // Actualizar el estado global
-        setUserEmail(email);
-
-        // Redirigir según el rol
-        if (data.role === 'admin') {
-          navigate('/admin/panel');
-        } else if (data.role === 'backoffice') {
-          navigate('/backoffice/panel');
-        } else {
-          navigate('/inicio');
+      if (!response.ok) {
+        if (data?.code === 'EMAIL_NOT_VERIFIED') {
+          localStorage.setItem('email', email);
+          navigate(`/verificar-email?email=${encodeURIComponent(email)}`);
+          setLoading(false);
+          return;
         }
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || 'Credenciales incorrectas.');
+        alert(data?.message || data?.msg || 'Credenciales incorrectas.');
+        setLoading(false);
+        return;
       }
-    } catch (error) {
-      console.error('Error en el inicio de sesión:', error);
+
+      // Guardar token y user
+      localStorage.setItem('token', data.access_token);
+      localStorage.setItem('email', email);
+      localStorage.setItem('user', JSON.stringify(data.user || {}));
+      localStorage.setItem('role', (data.user?.role) || data.role || '');
+      setUserEmail(email);
+
+      const next = new URLSearchParams(location.search).get('next');
+
+      // Si es abogado sin KYC aprobado -> forzar KYC
+      if ((data.user?.role === 'abogado') && data.user?.kyc_status !== 'approved') {
+        navigate('/abogado/kyc');
+        setLoading(false);
+        return;
+      }
+
+      const redirect = next ||
+        (data.user?.role === 'admin' ? '/admin/panel'
+          : data.user?.role === 'backoffice' ? '/backoffice/panel'
+          : '/inicio');
+
+      window.location.replace(redirect);
+    } catch (err) {
+      console.error('Error en el inicio de sesión:', err);
       alert('Ocurrió un error al intentar iniciar sesión.');
+      setLoading(false);
     }
   };
-  // --- FIN DE LA FUNCIÓN ---
 
-  // Si ya hay token, no renderizar nada para evitar un "flash" del formulario
-  if (token) {
-    return null;
-  }
+  if (token) return null;
 
   return (
     <div className="form-container">
@@ -79,6 +87,8 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
+              autoComplete="email"
             />
           </div>
 
@@ -92,21 +102,35 @@ function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                disabled={loading}
+                autoComplete="current-password"
               />
-              <span 
-                className="toggle-password" 
-                onClick={() => setShowPassword(!showPassword)}
+              <span
+                className="toggle-password"
+                role="button"
+                tabIndex={0}
+                onClick={() => setShowPassword(p => !p)}
+                onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setShowPassword(p => !p)}
+                aria-label="Mostrar/ocultar contraseña"
               >
-                {/* Puedes reemplazar '👁️' por un ícono de FontAwesome o Material Icons */}
                 {showPassword ? '🙈' : '👁️'}
               </span>
             </div>
           </div>
-          
-          <button type="submit" className="submit-btn">Iniciar sesión</button>
+
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? 'Ingresando…' : 'Iniciar sesión'}
+          </button>
         </form>
+
+        <div className="form-footer-text" style={{ marginTop: 12 }}>
+          <Link to="/recuperar-password">¿Olvidaste tu contraseña?</Link>
+        </div>
+
         <div className="form-footer-text">
-          Al iniciar sesión o continuar, aceptas las <Link to="/terminos">Condiciones de uso</Link> y la <Link to="/privacidad">Política de privacidad</Link>.
+          Al iniciar sesión o continuar, aceptas las{' '}
+          <Link to="/terminos">Condiciones de uso</Link> y la{' '}
+          <Link to="/privacidad">Política de privacidad</Link>.
         </div>
       </div>
     </div>

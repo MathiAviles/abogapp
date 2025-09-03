@@ -3,11 +3,36 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import './LawyerAvailability.css';
 
+// ---- Helpers locales (sin UTC) ----
+function formatLocalDateYMD(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+function parseSlotToMinutes(s) {
+  if (!s) return 0;
+  const raw = String(s).trim().toLowerCase();
+  let m = raw.match(/^(\d{1,2})(?::(\d{2}))?\s*([ap]m)$/i);
+  if (m) {
+    let hh = parseInt(m[1], 10);
+    const mi = parseInt(m[2] || '0', 10);
+    const ap = m[3];
+    if (ap.toLowerCase() === 'am') { if (hh === 12) hh = 0; }
+    else { if (hh < 12) hh += 12; }
+    return hh * 60 + mi;
+  }
+  m = raw.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (m) return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
+  return 0;
+}
+
 function LawyerAvailability() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [allAvailabilities, setAllAvailabilities] = useState({});
   const [timeSlots, setTimeSlots] = useState([]);
 
+  // (Se mantiene tal cual; no se usa para render pero no estorba)
   const workingHours = [];
   for (let hour = 0; hour < 24; hour++) {
     for (let minute of ['00', '30']) {
@@ -38,12 +63,12 @@ function LawyerAvailability() {
   }, []);
 
   useEffect(() => {
-    const dateKey = selectedDate.toISOString().split('T')[0];
+    const dateKey = formatLocalDateYMD(selectedDate); // <- local seguro
     setTimeSlots(allAvailabilities[dateKey] || []);
   }, [selectedDate, allAvailabilities]);
 
   const handleSlotToggle = (slot) => {
-    setTimeSlots(prevSlots => 
+    setTimeSlots(prevSlots =>
       prevSlots.includes(slot)
         ? prevSlots.filter(s => s !== slot)
         : [...prevSlots, slot]
@@ -52,8 +77,9 @@ function LawyerAvailability() {
 
   const handleSaveAvailability = async () => {
     const token = localStorage.getItem('token');
-    const dateKey = selectedDate.toISOString().split('T')[0];
-    
+    const dateKey = formatLocalDateYMD(selectedDate); // <- local seguro
+    const sorted = [...timeSlots].sort((a, b) => parseSlotToMinutes(a) - parseSlotToMinutes(b));
+
     try {
       const response = await fetch('http://localhost:5001/api/lawyer/availability', {
         method: 'POST',
@@ -61,7 +87,7 @@ function LawyerAvailability() {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ date: dateKey, time_slots: timeSlots.sort() })
+        body: JSON.stringify({ date: dateKey, time_slots: sorted })
       });
       if (response.ok) {
         alert('Disponibilidad guardada.');
@@ -75,6 +101,8 @@ function LawyerAvailability() {
     }
   };
 
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+
   return (
     <div className="availability-container">
       <h3>Gestiona tu Disponibilidad</h3>
@@ -84,7 +112,7 @@ function LawyerAvailability() {
           <Calendar
             onChange={setSelectedDate}
             value={selectedDate}
-            minDate={new Date()}
+            minDate={today}
             className="custom-calendar"
           />
         </div>
@@ -111,7 +139,6 @@ function LawyerAvailability() {
           </div>
         </div>
       </div>
-      {/* Asegúrate de que este botón tenga el onClick */}
       <button onClick={handleSaveAvailability} className="submit-btn">
         Guardar Disponibilidad para {selectedDate.toLocaleDateString()}
       </button>
@@ -119,13 +146,14 @@ function LawyerAvailability() {
   );
 }
 
-// Nota: Esta parte también estaba faltando en el código anterior que te dí, ¡mis disculpas!
+/* =======================
+   SOLO FIX DE SLOTS AQUÍ
+   ======================= */
+// Genera TODOS los intervalos cada 30' desde startHour:00 hasta endHour:30 (inclusive).
 const generateTimeSlots = (startHour, endHour) => {
   const slots = [];
   for (let hour = startHour; hour <= endHour; hour++) {
     for (let minute of ['00', '30']) {
-      if (hour === endHour + 1 && minute === '00') continue;
-      if (hour === endHour && minute === '30') continue;
       const ampm = hour >= 12 ? 'PM' : 'AM';
       let displayHour = hour % 12;
       if (displayHour === 0) displayHour = 12;
@@ -135,11 +163,12 @@ const generateTimeSlots = (startHour, endHour) => {
   return slots;
 };
 
+// Rango “Noche” extendido hasta 23 para incluir 10:30 PM, 11:00 PM y 11:30 PM.
 const timeSections = {
-  madrugada: { title: '🌙 Por la Madrugada', slots: generateTimeSlots(0, 5) },
-  manana: { title: '☀️ Por la Mañana', slots: generateTimeSlots(6, 11) },
-  tarde: { title: '🏙️ Por la Tarde', slots: generateTimeSlots(12, 18) },
-  noche: { title: '🌃 Por la Noche', slots: generateTimeSlots(19, 22) }
+  madrugada: { title: '🌙 Por la Madrugada', slots: generateTimeSlots(0, 5) },   // incluye 5:30 AM
+  manana:    { title: '☀️ Por la Mañana',   slots: generateTimeSlots(6, 11) },  // incluye 11:30 AM
+  tarde:     { title: '🏙️ Por la Tarde',    slots: generateTimeSlots(12, 18) }, // incluye 6:30 PM
+  noche:     { title: '🌃 Por la Noche',     slots: generateTimeSlots(19, 23) }  // incluye 10:30 PM, 11:00 PM, 11:30 PM
 };
 
 export default LawyerAvailability;

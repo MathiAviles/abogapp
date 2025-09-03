@@ -1,53 +1,394 @@
-/* Estilos para la sección de la foto de perfil */
-.profile-picture-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 30px;
-  border-bottom: 1px solid #eee; /* Línea divisoria sutil */
-  padding-bottom: 30px;
+/* =============================
+   Layout general con sidebar
+   ============================= */
+.lp-container {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  padding: 24px;
+  background: #f7f7fb;
+  min-height: calc(100vh - 200px);
+  box-sizing: border-box;
 }
 
-/* Estilo para la imagen de perfil redonda */
-.profile-picture {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%; /* La hace perfectamente redonda */
-  object-fit: cover; /* Asegura que la imagen cubra el área sin deformarse */
-  margin-bottom: 15px;
-  border: 4px solid #ffffff; /* Borde blanco para resaltar */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
+.lp-sidebar {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 20px;
+  position: sticky;
+  top: 24px;
+  height: fit-content;
 }
 
-/* Formulario específico para la subida de la foto */
-.upload-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px; /* Espacio entre el input y el botón */
-}
-
-/* Botón secundario para acciones como "Cambiar Foto" */
-.submit-btn-secondary {
-  padding: 8px 20px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  font-size: 0.9em;
-  border: 1px solid #ccc;
-  background-color: #f0f0f0;
+.lp-sidebar-title {
+  margin: 0 0 12px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: #333;
-  transition: background-color 0.2s ease-in-out;
 }
 
-.submit-btn-secondary:hover {
-  background-color: #e0e0e0;
+.lp-tabs { display: flex; flex-direction: column; gap: 8px; }
+
+.lp-tab {
+  appearance: none;
+  border: 1px solid #eee;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  color: #444;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.lp-tab:hover { border-color: #e5e5e5; transform: translateY(-1px); }
+.lp-tab.active { border-color: #e85d99; background: #FFF0F6; color: #E85D99; }
+
+/* Contenido principal */
+.lp-content { min-width: 0; }
+
+/* =============================
+   Dashboard
+   ============================= */
+.lp-dashboard .lp-loading {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 24px;
 }
 
-/* Ajuste para los campos de texto largos (textarea) */
-.form-group textarea {
-  resize: vertical; /* Permite al usuario ajustar la altura del campo */
-  min-height: 120px; /* Una altura mínima para que sea cómodo escribir */
-  font-family: inherit; /* Usa la misma fuente que el resto de la app */
+.lp-welcome {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  margin-bottom: 18px;
+}
+.lp-welcome h2 { margin: 0 0 8px 0; }
+.lp-welcome-sub { margin: 0; color: #666; }
+
+.lp-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #E85D99, 0 6px 16px rgba(0,0,0,0.08);
+}
+
+/* Métricas */
+.lp-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.metric-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.metric-label { font-size: .9rem; color: #666; font-weight: 600; }
+.metric-value { font-size: 1.6rem; font-weight: 800; color: #222; letter-spacing: -0.02em; }
+.metric-hint { font-size: .8rem; color: #8a8a8a; }
+.metric-badge { display: inline-block; padding: 6px 10px; border-radius: 999px; font-size: .85rem; font-weight: 700; }
+.metric-badge.ok { background: #e9f9ef; color: #1d8f3a; }
+.metric-badge.warn { background: #fff5e5; color: #b76a00; }
+
+/* Gráfica (SVG liviano) */
+.lp-chart-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 16px;
+  margin-bottom: 18px;
+}
+.lp-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.lp-chart-title { margin: 0; }
+.lp-chart-sub { color: #666; font-size: .9rem; }
+
+.lp-chart-wrap { width: 100%; }
+.lp-chart-svg {
+  width: 100%;
+  height: 180px;
+  display: block;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff 0%, #fff 60%, #fafafa 100%);
+  overflow: hidden;
+}
+.lp-gridline { stroke: #eee; stroke-width: .3; }
+.lp-bar { fill: #E85D99; opacity: .9; }
+.lp-bar:hover { opacity: 1; }
+.lp-chart-footer {
+  display: flex;
+  justify-content: space-between;
+  color: #888;
+  font-size: .8rem;
+  margin-top: 6px;
+}
+
+/* Próximas reuniones */
+.lp-upcoming {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 18px;
+}
+.lp-upcoming h3 { margin: 0 0 12px 0; }
+.lp-empty { color: #777; font-size: .95rem; }
+.lp-upcoming-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+.lp-upcoming-item { border: 1px solid #eee; border-radius: 12px; padding: 12px; }
+.lp-up-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.lp-up-date { font-weight: 700; color: #333; }
+.lp-status {
+  font-size: .85rem;
+  font-weight: 800;
+  text-transform: capitalize;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  color: #555;
+}
+.lp-status.confirmada,
+.lp-status.completada { background: #e9f9ef; color: #1d8f3a; }
+.lp-status.cancelada { background: #ffecec; color: #c62828; }
+.lp-up-name { margin-top: 6px; color: #666; }
+
+/* =============================
+   Secciones genéricas
+   ============================= */
+.lp-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 20px;
+}
+.lp-section-title { margin: 0 0 12px 0; }
+.lp-section-body { min-height: 0; }
+.lp-tip { margin: 6px 0 16px; color: #666; }
+.lp-subtitle { margin: 8px 0 8px; }
+
+/* =============================
+   Editar Perfil – Foto
+   ============================= */
+.form-box img.profile-picture,
+.lp-content .form-box img.profile-picture {
+  width: 150px !important;
+  height: 150px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  display: block;
+  margin: 0 auto 15px;
+  border: 4px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.profile-picture-section .upload-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.profile-picture-section .upload-form input[type="file"] { max-width: 100%; }
+.lp-content .form-box { max-width: 900px; margin: 0 auto; }
+
+/* =============================
+   Editar Perfil – Campos (full width + nueva tipografía)
+   ============================= */
+.form-box form .form-group { margin-bottom: 16px; }
+
+.form-box label {
+  display: block;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.form-box input[type="text"],
+.form-box input[type="number"],
+.form-box input[type="email"],
+.form-box textarea,
+.form-box select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid #e6e6ef;
+  background: #fff;
+  font-size: 16px;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  color: #1f2937;
   line-height: 1.5;
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+.form-box textarea { min-height: 140px; resize: vertical; }
+
+.form-box input::placeholder,
+.form-box textarea::placeholder { color: #98a2b3; }
+
+.form-box input:focus,
+.form-box textarea:focus,
+.form-box select:focus {
+  outline: none;
+  border-color: #e85d99;
+  box-shadow: 0 0 0 4px rgba(232,93,153,0.12);
+  background: #fff;
+}
+
+/* Input de precio: sin spinners y compatible cross-browser */
+.form-box input[type="number"] {
+  appearance: textfield;        /* estándar */
+  -moz-appearance: textfield;   /* Firefox */
+}
+.form-box input[type="number"]::-webkit-outer-spin-button,
+.form-box input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* =============================
+   Mis Fotos y Video
+   ============================= */
+/* Uploader */
+.lp-album-uploader { margin-bottom: 12px; }
+.lp-drop {
+  display: block;
+  width: 100%;
+  border: 2px dashed #e8e8e8;
+  border-radius: 12px;
+  background: #fafafa;
+  cursor: pointer;
+  text-align: center;
+}
+.lp-drop-inner { padding: 22px 14px; display: grid; gap: 6px; color: #666; }
+.lp-drop-inner strong { color: #333; }
+
+/* Álbum (tarjetas grandes, alineadas a la izquierda) */
+.lp-album-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-items: start; /* asegura alineación a la izquierda en cada celda */
+}
+@media (min-width: 1200px) {
+  .lp-album-grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+}
+
+.lp-album-item {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #f3f3f7;
+  aspect-ratio: 16 / 10;         /* rectangular “hero” */
+  box-shadow: 0 10px 24px rgba(0,0,0,.08);
+  cursor: zoom-in;
+}
+.lp-album-item img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transform: scale(1.02);
+  transition: transform .25s ease;
+}
+.lp-album-item:hover img { transform: scale(1.06); }
+
+/* Botón eliminar */
+.lp-album-delete {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 30px; height: 30px;
+  border-radius: 999px; border: none;
+  background: rgba(0,0,0,.55); color: #fff;
+  font-weight: 700; line-height: 30px; text-align: center;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.lp-album-delete:hover { background: rgba(0,0,0,.75); transform: scale(1.06); }
+
+.lp-album-empty { color: #777; padding: 12px 0; text-align: center; }
+
+/* Video */
+.lp-video-uploader { margin: 14px 0; }
+.lp-video-preview { min-height: 0; }
+.lp-video-player { display: grid; gap: 10px; }
+.lp-video-player video {
+  width: 100%; height: auto;
+  border-radius: 12px; background: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.lp-video-delete {
+  justify-self: start;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  background: #fff;
+  cursor: pointer;
+}
+.lp-video-delete:hover { background: #fafafa; }
+
+/* =============================
+   Lightbox (overlay reutilizable)
+   ============================= */
+.lb-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.92);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; padding: 28px;
+}
+.lb-overlay img {
+  max-width: min(96vw, 1280px);
+  max-height: calc(100vh - 160px);
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.55);
+  user-select: none; -webkit-user-drag: none;
+}
+.lb-close, .lb-prev, .lb-next {
+  position: absolute;
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,.18);
+  color: #fff; border-radius: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+}
+.lb-close { top: 22px; right: 22px; width: 40px; height: 40px; font-size: 22px; line-height: 38px; text-align: center; }
+.lb-prev, .lb-next { top: 50%; transform: translateY(-50%); width: 48px; height: 64px; font-size: 34px; line-height: 60px; text-align: center; }
+.lb-prev { left: 18px; }
+.lb-next { right: 18px; }
+.lb-close:hover, .lb-prev:hover, .lb-next:hover { background: rgba(255,255,255,.2); transform: translateY(-50%) scale(1.04); }
+.lb-close:hover { transform: scale(1.06); }
+
+/* =============================
+   Responsive
+   ============================= */
+@media (max-width: 1024px) {
+  .lp-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lp-container { grid-template-columns: 1fr; }
+  .lp-sidebar { position: static; order: -1; }
+}
+
+@media (max-width: 520px) {
+  .lp-album-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

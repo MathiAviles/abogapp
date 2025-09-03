@@ -6,3 +6,5 @@ Flask-Login
 Flask-JWT-Extended
 argon2-cffi
 stream-chat
+sib-api-v3-sdk
+requests
