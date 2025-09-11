@@ -46,10 +46,12 @@ function LawyerAvailability() {
     }
   }
 
+  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
+
   const fetchAvailabilities = async () => {
     const token = localStorage.getItem('token');
     if (!token) return;
-    const response = await fetch('http://localhost:5001/api/lawyer/availability', {
+    const response = await fetch(`${API_BASE}/api/lawyer/availability`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (response.ok) {
@@ -81,7 +83,7 @@ function LawyerAvailability() {
     const sorted = [...timeSlots].sort((a, b) => parseSlotToMinutes(a) - parseSlotToMinutes(b));
 
     try {
-      const response = await fetch('http://localhost:5001/api/lawyer/availability', {
+      const response = await fetch(`${API_BASE}/api/lawyer/availability`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
