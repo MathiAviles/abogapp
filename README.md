@@ -15,6 +15,5 @@ docker-compose up -d
 ### Construir build de frontend
 <pre><code>
 docker-compose exec frontend npm run build
-sudo chmod -R 777 dist
 </code></pre>
 
