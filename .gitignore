@@ -10,7 +10,7 @@ instance/
 *.db
 
 # .env
-/.env
+**/.env
 
 # Python / Flask
 backend/venv/

@@ -5,6 +5,8 @@ function BackPanel() {
   // Estado para guardar la lista de solicitudes de abogados
   const [solicitudes, setSolicitudes] = useState([]);
 
+  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
+
   // useEffect para obtener los datos cuando el componente se carga
   useEffect(() => {
     const fetchSolicitudes = async () => {
@@ -12,7 +14,7 @@ function BackPanel() {
       if (!token) return; // No hacer nada si no hay token
 
       try {
-        const response = await fetch('http://localhost:5001/api/abogados/pendientes', {
+        const response = await fetch(`${API_BASE}/api/abogados/pendientes`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -36,7 +38,7 @@ function BackPanel() {
   const handleAprobar = async (abogadoId) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:5001/api/abogados/aprobar/${abogadoId}`, {
+      const response = await fetch(`${API_BASE}/api/abogados/aprobar/${abogadoId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -59,7 +61,7 @@ function BackPanel() {
   const handleRechazar = async (abogadoId) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`http://localhost:5001/api/abogados/rechazar/${abogadoId}`, {
+      const response = await fetch(`${API_BASE}/api/abogados/rechazar/${abogadoId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,

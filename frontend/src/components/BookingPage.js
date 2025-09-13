@@ -46,15 +46,17 @@ export default function BookingPage() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const navigate = useNavigate();
 
+  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
+
   useEffect(() => {
     const fetchLawyerData = async () => {
       setLoading(true);
       try {
-        const profileRes = await fetch(`http://localhost:5001/api/abogado/perfil/${abogadoId}`);
+        const profileRes = await fetch(`${API_BASE}/api/abogado/perfil/${abogadoId}`);
         if (profileRes.ok) {
           setAbogado(await profileRes.json());
         }
-        const availabilityRes = await fetch(`http://localhost:5001/api/abogado/availability/${abogadoId}`);
+        const availabilityRes = await fetch(`${API_BASE}/api/abogado/availability/${abogadoId}`);
         if (availabilityRes.ok) {
           setAvailabilities(await availabilityRes.json());
         }

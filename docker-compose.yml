@@ -15,7 +15,7 @@ services:
       - APP_TIMEZONE=America/Panama
       - TZ=America/Panama
       - BREVO_API_KEY=${BREVO_API_KEY}
-      - FRONTEND_URL=http://localhost:3000
+      - FRONTEND_URL=${FRONTEND_URL}
       - SENDER_EMAIL=no-reply@myabogapp.com
       - APP_NAME=AbogApp
       - ADMIN_CREATE_SECRET=CristianoRonaldoBetterThanMessi
@@ -29,6 +29,7 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
     depends_on:

@@ -47,7 +47,11 @@ def create_app():
 
     # ---------- CORS ----------
     frontend_env = os.environ.get('FRONTEND_URL', '').strip()
-    cors_origins = ["http://localhost:3000", "http://127.0.0.1:3000"]
+    cors_origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://abogapp.s3-website-us-east-1.amazonaws.com"
+    ]
     if frontend_env and frontend_env not in cors_origins:
         cors_origins.append(frontend_env)
 

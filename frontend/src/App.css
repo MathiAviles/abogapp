@@ -1,4 +1,8 @@
 /* --- ESTILOS GENERALES --- */
+:root {
+  --abogapp-pink: #E85D99;
+}
+
 body {
   margin: 0;
   font-family: 'Figtree', sans-serif;
@@ -10,7 +14,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 15px 40px;
-  background-color: #E85D99;
+  background-color: var(--abogapp-pink);
   color: white;
   height: 50px; 
   box-sizing: border-box;
@@ -46,7 +50,7 @@ body {
 
 .btn-primary {
   background-color: white;
-  color: #E85D99;
+  color: var(--abogapp-pink);
 }
 .btn-primary:hover {
   background-color: #f0f0f0;
@@ -99,7 +103,7 @@ body {
 /* --- ESTILOS PARA LA SECCIÓN PRINCIPAL (HERO) --- */
 .main-content {
   padding: 80px 20px 60px;
-  background-color: #E85D99;
+  background-color: var(--abogapp-pink);
   color: white;
   text-align: center;
 }
@@ -107,8 +111,7 @@ body {
 .main-content h1 {
   font-size: 3.5rem;
   font-weight: 700;
-  margin: 0 auto;
-  margin-bottom: 40px;
+  margin: 0 auto 40px;
   max-width: 800px;
   line-height: 1.2;
 }
@@ -127,4 +130,23 @@ body {
   height: 40px; /* ajusta según tu header */
   width: auto;
   object-fit: contain;
+}
+
+/* --- EFECTO SUAVE ENTRE PANTALLAS --- */
+.App > * {
+  animation: fadein 0.25s ease;
+}
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- OPCIONAL: CONTENEDOR DE CARGA EN LISTAS/PERFILES --- */
+.loading-container {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #444;
+  font-weight: 500;
 }

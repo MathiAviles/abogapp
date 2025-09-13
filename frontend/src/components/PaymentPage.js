@@ -6,6 +6,8 @@ function PaymentPage() {
   const navigate = useNavigate();
   const { lawyer, date, slot } = location.state || {};
 
+  const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
+
   if (!lawyer) {
     return <div>Error: No se encontraron los detalles de la cita. Vuelve a intentarlo.</div>;
   }
@@ -13,7 +15,7 @@ function PaymentPage() {
   const handlePayment = async () => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:5001/api/meetings', {
+      const response = await fetch(`${API_BASE}/api/meetings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

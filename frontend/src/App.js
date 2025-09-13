@@ -30,16 +30,13 @@ import ResetPassword from './components/ResetPassword';
 import ChatProvider from './components/ChatProvider';
 import ChatWindow from './components/ChatWindow';
 
-import LawyerKYC from './components/LawyerKYC'; // Si tienes el componente de KYC, descoméntalo
+import LawyerKYC from './components/LawyerKYC';
 import KycPending from './components/KycPending';
-import KYCApproved from './components/KycApproved'; // Si tienes el componente de KYC aprobado, descoméntalo
+import KYCApproved from './components/KycApproved';
 import KycGate from './components/KycGate';
 
 // Context
 import { AuthProvider } from './AuthContext';
-
-// (Si tienes el componente de KYC, descomenta esta línea)
-// import LawyerKYC from './components/LawyerKYC';
 
 import './App.css';
 import HomeHeroSlider from './components/HomeHeroSlider';
@@ -62,7 +59,6 @@ function HomePage() {
     <>
       <MainContent />
       <Specialties />
-      <HomeHeroSlider />
       <HowItWorks />
       <JoinAsLawyer />
     </>
@@ -106,7 +102,7 @@ function AppShell() {
         <Route path="/chat" element={<ProtectedRoute><ChatWindow /></ProtectedRoute>} />
         <Route path="/cliente/perfil" element={<ProtectedRoute><ClientProfile /></ProtectedRoute>} />
 
-        {/* KYC (si ya tienes el componente) */}
+        {/* KYC */}
         <Route path="/abogado/kyc" element={<ProtectedRoute><LawyerKYC /></ProtectedRoute>} />
         <Route path="/abogado/kyc/pending" element={<ProtectedRoute><KycPending /></ProtectedRoute>} />
         <Route path="/abogado/kyc/done" element={<ProtectedRoute><KYCApproved /></ProtectedRoute>} />

@@ -5,6 +5,7 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useChat } from "./ChatProvider";
 import HeartButton from "./HeartButton";
+import { useLoader } from "./LoaderProvider";
 import "./LawyerPublicProfile.css";
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
@@ -66,6 +67,7 @@ function LawyerPublicProfile() {
   const { abogadoId } = useParams();
   const navigate = useNavigate();
   const { openDirectMessage } = useChat() || {};
+  const { setBusy } = useLoader();
 
   const [abogado, setAbogado] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -116,6 +118,7 @@ function LawyerPublicProfile() {
   useEffect(() => {
     const fetchAll = async () => {
       setLoading(true);
+      setBusy(true);
       try {
         // Perfil
         const profileRes = await fetch(`${API_BASE}/api/abogado/perfil/${abogadoId}`);
@@ -181,10 +184,11 @@ function LawyerPublicProfile() {
         setGallery([]);
       } finally {
         setLoading(false);
+        setBusy(false);
       }
     };
     fetchAll();
-  }, [abogadoId]);
+  }, [abogadoId, setBusy]);
 
   useEffect(() => {
     const dateKey = selectedDate.toISOString().split("T")[0];
@@ -248,6 +252,7 @@ function LawyerPublicProfile() {
 
   const toggleFavorite = async () => {
     if (!token) {
+      setBusy(true);
       navigate("/login");
       return;
     }
@@ -276,6 +281,7 @@ function LawyerPublicProfile() {
     }
     try {
       setSending(true);
+      setBusy(true);
       const cid = await openDirectMessage(abogado.id);
       navigate(`/chat?cid=${encodeURIComponent(cid)}`);
     } catch (e) {
@@ -285,11 +291,24 @@ function LawyerPublicProfile() {
       else alert("No pudimos abrir el chat. Inténtalo nuevamente.");
     } finally {
       setSending(false);
+      setTimeout(() => setBusy(false), 150);
     }
   };
 
-  if (loading) return <div className="loading-container">Cargando perfil...</div>;
-  if (!abogado) return <div className="loading-container">No se pudo encontrar el perfil del abogado.</div>;
+  if (loading) {
+    return (
+      <div className="loading-container" role="status" aria-live="polite" aria-busy="true" style={{ display:'grid', placeItems:'center', padding:'40px' }}>
+        <div className="loading-spinner" />
+      </div>
+    );
+  }
+  if (!abogado) {
+    return (
+      <div className="loading-container" style={{ padding: 24 }}>
+        No se pudo encontrar el perfil del abogado.
+      </div>
+    );
+  }
 
   const imageUrl = abogado.profile_picture_url
     ? toAbsolute(`/uploads/${abogado.profile_picture_url}`)
@@ -339,7 +358,7 @@ function LawyerPublicProfile() {
 
             {/* Acciones desktop */}
             <div className="profile-actions profile-actions-desktop" style={{ marginTop: 8 }}>
-              <Link to={`/reservar-cita/${abogado.id}`}>
+              <Link to={`/reservar-cita/${abogado.id}`} onClick={() => setBusy(true)}>
                 <button className="btn-primary-action">Reservar Cita</button>
               </Link>
               <button
@@ -372,7 +391,7 @@ function LawyerPublicProfile() {
                   />
                 </svg>
               </button>
-              <Link to={`/reservar-cita/${abogado.id}`} className="primary-cta-link">
+              <Link to={`/reservar-cita/${abogado.id}`} className="primary-cta-link" onClick={() => setBusy(true)}>
                 <button className="primary-cta">Reservar Cita</button>
               </Link>
             </div>
@@ -422,7 +441,9 @@ function LawyerPublicProfile() {
           >
             <h3>Álbum de fotos</h3>
             {galleryLoading ? (
-              <p>Cargando álbum…</p>
+              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                <div className="loading-spinner" /><span>Cargando álbum…</span>
+              </div>
             ) : gallery.length === 0 ? (
               <p>Este abogado aún no tiene fotos en su álbum.</p>
             ) : (
@@ -527,7 +548,9 @@ function LawyerPublicProfile() {
                 <span style={{ color: "#666" }}>({reviewSummary.lifetime?.count || 0} reseñas en total)</span>
               </div>
             ) : (
-              <p>Cargando resumen…</p>
+              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                <div className="loading-spinner" /><span>Cargando resumen…</span>
+              </div>
             )}
           </section>
 
@@ -562,7 +585,9 @@ function LawyerPublicProfile() {
                 </ul>
               </>
             ) : (
-              <p>Cargando reseñas…</p>
+              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                <div className="loading-spinner" /><span>Cargando reseñas…</span>
+              </div>
             )}
           </section>
         </div>

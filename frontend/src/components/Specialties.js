@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
+import { useLoader } from './LoaderProvider';
 import './Specialties.css'; // Importa los estilos dedicados
 
 function Specialties() {
@@ -16,9 +17,11 @@ function Specialties() {
 
   const { userEmail } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { setBusy } = useLoader();
 
   // La lógica para manejar el clic que ya funcionaba
   const handleSpecialtyClick = (specialty) => {
+    setBusy(true);
     if (userEmail) {
       navigate(`/abogados/${specialty.toLowerCase()}`);
     } else {

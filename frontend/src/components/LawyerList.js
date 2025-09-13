@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useChat } from "./ChatProvider";
 import HeartButton from "./HeartButton";
+import { useLoader } from "./LoaderProvider";
 import "./LawyerList.css";
 
 const API_BASE = process.env.REACT_APP_API_URL || "http://localhost:5001";
@@ -132,6 +133,7 @@ function LawyerList() {
   const navigate = useNavigate();
   const { openDirectMessage } = useChat() || {};
   const token = localStorage.getItem("token");
+  const { setBusy } = useLoader();
 
   // ¿estamos en móvil?
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -146,8 +148,9 @@ function LawyerList() {
     if (res.status === 401) {
       localStorage.removeItem("token");
       alert("Tu sesión ha expirado. Inicia sesión nuevamente.");
+      setBusy(true);
       navigate("/login");
-      throw new Error("Unauthorized");
+      return Promise.reject(new Error("Unauthorized"));
     }
     return res;
   };
@@ -174,6 +177,7 @@ function LawyerList() {
   useEffect(() => {
     const fetchAbogados = async () => {
       setLoading(true);
+      setBusy(true);
       try {
         const response = await fetch(`${API_BASE}/api/abogados/${especialidad}`);
         const list = response.ok ? await response.json() : [];
@@ -198,10 +202,11 @@ function LawyerList() {
         setAbogados([]);
       } finally {
         setLoading(false);
+        setBusy(false);
       }
     };
     fetchAbogados();
-  }, [especialidad]);
+  }, [especialidad, setBusy]);
 
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
@@ -300,6 +305,7 @@ function LawyerList() {
     if (!openDirectMessage) return;
     try {
       setSendingId(abogado.id);
+      setBusy(true);
       const cid = await openDirectMessage(abogado.id);
       navigate(`/chat?cid=${encodeURIComponent(cid)}`);
     } catch (e) {
@@ -310,11 +316,13 @@ function LawyerList() {
       }
     } finally {
       setSendingId(null);
+      setTimeout(() => setBusy(false), 150);
     }
   };
 
   const toggleFavorite = async (lawyerId) => {
     if (!token) {
+      setBusy(true);
       navigate("/login");
       return;
     }
@@ -361,7 +369,14 @@ function LawyerList() {
     return options[sortKey] || "Relevancia";
   }, [sortKey]);
 
-  if (loading) return <div className="loading-container" role="status">Buscando abogados...</div>;
+  // Loader “bonito” al inicio: sólo spinner sin texto
+  if (loading) {
+    return (
+      <div className="loading-container" role="status" aria-live="polite" aria-busy="true" style={{ display:'grid', placeItems:'center', padding:'40px' }}>
+        <div className="loading-spinner" />
+      </div>
+    );
+  }
 
   return (
     <div className="lawyer-list-container">
@@ -584,7 +599,11 @@ function LawyerList() {
                   </div>
 
                   <div className="lawyer-card-main">
-                    <Link to={`/abogado/perfil/${abogado.id}`} className="lawyer-name-link">
+                    <Link
+                      to={`/abogado/perfil/${abogado.id}`}
+                      className="lawyer-name-link"
+                      onClick={() => setBusy(true)}
+                    >
                       <h3 className="lawyer-name">
                         {abogado.nombres} {abogado.apellidos} <span className="verified-check">✔</span>
                       </h3>
@@ -653,7 +672,7 @@ function LawyerList() {
                               <path d="M4 4h16v10H7l-3 3V4z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                           </button>
-                          <Link to={`/reservar-cita/${abogado.id}`} className="ll-primary-btn-link">
+                          <Link to={`/reservar-cita/${abogado.id}`} className="ll-primary-btn-link" onClick={() => setBusy(true)}>
                             <button className="ll-primary-btn">Reservar una cita</button>
                           </Link>
                         </div>
@@ -685,7 +704,7 @@ function LawyerList() {
                       {price ? `${price.toFixed(2)}$ / consulta` : "Precio a convenir"}
                     </span>
 
-                    <Link to={`/reservar-cita/${abogado.id}`}>
+                    <Link to={`/reservar-cita/${abogado.id}`} onClick={() => setBusy(true)}>
                       <button className="btn-primary-action">Reservar Cita</button>
                     </Link>
 
